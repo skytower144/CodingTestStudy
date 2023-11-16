@@ -8,7 +8,6 @@ using namespace std;
 string solution(string X, string Y) {
     string answer = "";
     map<char, int> xMap, yMap;
-    bool zeroFlag = true;
     
     for (const auto x : X) xMap[x]++;
     for (const auto y : Y) yMap[y]++;
@@ -17,9 +16,5 @@ string solution(string X, string Y) {
         if (yMap.count(num)) answer += string(min(yMap[num], count), num);
     
     sort(answer.begin(), answer.end(), greater());
-    
-    for (const auto num : answer)
-        if (num != '0') zeroFlag = false;
-    
-    return answer.size() ? (zeroFlag ? "0" : answer) : "-1";
+    return answer.size() ? (answer[0] == '0' ? "0" : answer) : "-1";
 }
