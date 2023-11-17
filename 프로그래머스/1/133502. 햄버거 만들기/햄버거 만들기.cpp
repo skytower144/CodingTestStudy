@@ -4,14 +4,17 @@
 using namespace std;
 
 int solution(vector<int> ingredient) {
-    int answer = 0;
-    vector<int> stack = {0};
+    int answer = 0, size = 0;
+    vector<int> stack;
     
     for (const auto food : ingredient) {
-        if (stack.back() == 1 && food == 2) stack.back() = 12;
-        else if (stack.back() == 12 && food == 3) stack.back() = 123;
-        else if (stack.back() == 123 && food == 1) answer++, stack.pop_back();
-        else stack.push_back(food);
+        stack.push_back(food);
+        size = stack.size();
+        
+        if (size >= 4 && stack[size - 4] == 1 && stack[size - 3] == 2 && stack[size - 2] == 3 && stack[size - 1] == 1) {
+            answer++;
+            for (int i = 0; i < 4; i++) stack.pop_back();
+        }
     }
     return answer;
 }
