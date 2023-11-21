@@ -1,28 +1,28 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
-#include <map>
 
 using namespace std;
 
 vector<string> solution(vector<string> players, vector<string> callings) {
-    vector<string> answer;
-    unordered_map<string, int> rankMap;
-    map<int, string> nameMap;
-    string wentPast;
+    vector<string> answer = players;
+    unordered_map<string, int> ranks;
+    int back, front;
+    string frontName;
     
-    for (int i = 0; i < players.size(); i++) {
-        rankMap[players[i]] = i;
-        nameMap[i] = players[i];
-    }
+    for (int i = 0; i < players.size(); i++)
+        ranks[players[i]] = i;
+    
     for (const auto call : callings) {
-        rankMap[call]--;
-        wentPast = nameMap[rankMap[call]];
-        rankMap[wentPast]++;
+        back = ranks[call];
+        front = back - 1;
+        frontName = answer[front];
         
-        nameMap[rankMap[call]] = call;
-        nameMap[rankMap[wentPast]] = wentPast;
+        ranks[call] = front;
+        ranks[frontName] = back;
+        
+        answer[front] = call;
+        answer[back] = frontName;
     }
-    for (auto [k, v] : nameMap) answer.push_back(v);
     return answer;
 }
