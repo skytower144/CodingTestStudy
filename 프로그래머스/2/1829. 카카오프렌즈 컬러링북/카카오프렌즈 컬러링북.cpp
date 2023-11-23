@@ -1,45 +1,48 @@
 #include <vector>
-#include <string>
+#include <queue>
 
 using namespace std;
-
-vector<vector<int>> marked;
-vector<int> dx = {-1, 1, 0, 0};
-vector<int> dy = {0, 0, -1, 1};
-int height, width;
-
-int CountArea(int x, int y, int number, vector<vector<int>> pic) {
-    if (marked[y][x] || number == 0 || number != pic[y][x]) return 0;
-    
-    int nx, ny;
-    int count = 1;
-    marked[y][x] = 1;
-    
-    for (int i = 0; i < 4; i++) {
-        nx = x + dx[i], ny = y + dy[i];
-        if (nx >= 0 && nx < width && ny >= 0 && ny < height) {
-            count += CountArea(nx, ny, number, pic);
-        }
-    }
-    return count;
-}
 
 vector<int> solution(int m, int n, vector<vector<int>> picture) {
     int number_of_area = 0;
     int max_size_of_one_area = 0;
-    int areaCount = 0;
+    int blockCount = 0;
     
-    marked = vector(m, vector<int>(n, 0));
-    height = m, width = n;
+    vector<vector<int>> visited(m, vector<int>(n, 0));
+    vector<int> dx = {0, 0, -1, 1};
+    vector<int> dy = {-1, 1, 0, 0};
     
     for (int i = 0; i < m; i++) {
         for (int j = 0; j < n; j++) {
-            if (!marked[i][j] && picture[i][j] != 0) {
+            if (picture[i][j] != 0 && !visited[i][j]) {
+                int blockType = picture[i][j];
+                visited[i][j] = 1;
+                blockCount = 1;
                 number_of_area++;
-                areaCount = CountArea(j, i, picture[i][j], picture);
                 
-                if (max_size_of_one_area < areaCount)
-                    max_size_of_one_area = areaCount;
+                queue<pair<int, int>> q;
+                q.push(pair<int, int>(j, i));
+                
+                while (!q.empty()) {
+                    pair<int, int> block = q.front();
+                    int x = block.first;
+                    int y = block.second;
+                    q.pop();
+                    
+                    for (int i = 0; i < 4; i++) {
+                        int nx = x + dx[i];
+                        int ny = y + dy[i];
+                        
+                        if (nx >= 0 && nx < n && ny >= 0 && ny < m && blockType == picture[ny][nx] && !visited[ny][nx]) {
+                            pair<int, int> newBlock(nx, ny);
+                            q.push(newBlock);
+                            visited[ny][nx] = 1;
+                            blockCount++;
+                        }
+                    }
+                }
+                if (max_size_of_one_area < blockCount)
+                    max_size_of_one_area = blockCount;
             }
         }
     }
