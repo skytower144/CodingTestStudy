@@ -7,9 +7,8 @@ using namespace std;
 
 int main() {
     ios::sync_with_stdio(0), cin.tie(0);
-    
     int a, b;
-    int answer = 0;
+    int answer = 1;
     
     cin >> a >> b;
 
@@ -19,7 +18,6 @@ int main() {
         else break;
         answer++;
     }
-    answer++;
     if (a != b) answer = -1;
     cout << answer;
     return 0;
