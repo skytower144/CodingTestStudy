@@ -8,38 +8,34 @@ using namespace std;
 
 int main() {
     ios::sync_with_stdio(0), cin.tie(0);
-    
+
     long long answer = 0;
-    int n, k, weight, value, limit;
+    int n, k;
     cin >> n >> k;
 
-    priority_queue<pair<int, int>> gems;
-    priority_queue<int> weightLimits;
+    vector<pair<int, int>> gems(n);
+    vector<int> limits(k, 0);
     priority_queue<int> stored;
 
-    for (int i = 0; i < n; i++) {
-        cin >> weight >> value;
-        gems.push(pair<int, int>(weight * -1, value));
-    }
-    for (int i = 0; i < k; i++) {
-        cin >> weight;
-        weightLimits.push(weight * -1);
-    }
+    for (int i = 0; i < n; i++)
+        cin >> gems[i].first >> gems[i].second;
+    
+    for (int i = 0; i < k; i++)
+        cin >> limits[i];
+
+    sort(gems.begin(), gems.end());
+    sort(limits.begin(), limits.end());
 
     int idx = 0;
     for (int i = 0; i < k; i++) {
-        limit = weightLimits.top() * -1;
-        
-        while (idx < n && limit >= gems.top().first * -1) {
-            stored.push(gems.top().second);
-            gems.pop();
+        while (idx < n && limits[i] >= gems[idx].first) {
+            stored.push(gems[idx].second);
             idx++;
         }
         if (!stored.empty()) {
             answer += stored.top();
             stored.pop();
         }
-        weightLimits.pop();
     }
     cout << answer;
     return 0;
