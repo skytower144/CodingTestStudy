@@ -1,4 +1,5 @@
 #include <vector>
+#include <string>
 #include <iostream>
 #include <algorithm>
 #include <queue>
@@ -39,16 +40,14 @@ int main() {
     ios::sync_with_stdio(0), cin.tie(0);
     cin >> n;
     grid = vector<vector<int>>(n, vector<int>(n, 0));
-    int maxWaterLevel = 0;
     int maxSafeZones = 0;
 
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
             cin >> grid[i][j];
-            maxWaterLevel = max(maxWaterLevel, grid[i][j]);
         }
     }
-    for (int level = 0; level <= maxWaterLevel; level++) {
+    for (int level = 0; level <= 100; level++) {
         int safeZoneCount = 0;
         safeZone = vector<vector<int>>(n, vector<int>(n, 0));
 
