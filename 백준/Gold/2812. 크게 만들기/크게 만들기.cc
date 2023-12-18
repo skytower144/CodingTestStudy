@@ -18,10 +18,8 @@ int main() {
         }
         answer += num[i];
     }
-    while (k) {
-        answer.pop_back();
-        k--;
-    }
+    while (k--) answer.pop_back();
+    
     cout << answer;
     return 0;
 }
