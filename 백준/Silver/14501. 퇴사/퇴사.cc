@@ -5,32 +5,28 @@
 using namespace std;
 
 int n;
-vector<vector<int>> schedule;
-vector<int> dp;
-int answer = -1;
 
-void S(int day, int money) {
-    if (day > n) {
-        if (day == n + 1)
-            answer = max(answer, money);
-        return;
-    }
-    S(day + schedule[day][0], money + schedule[day][1]);
-    S(day + 1, money);
-}
+int answer = -1;
 
 int main() {
     ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
 
     cin >> n;
-    schedule = vector<vector<int>>(n + 1, vector<int>(2, 0));
-    dp = vector<int>(n + 1, 0);
+    vector<int> t(n + 2, 0);
+    vector<int> p(n + 2, 0);
+    vector<int> dp(n + 2, 0);
 
-    for (int i = 1; i < n + 1; i++)
-        cin >> schedule[i][0] >> schedule[i][1];
+    for (int i = 1; i <= n; i++)
+        cin >> t[i] >> p[i];
     
-    S(1, 0);
-    cout << answer;
+    for (int i = 1; i <= n; i++) {
+        dp[i] = max(dp[i], dp[i - 1]);
 
+        int nextPos = i + t[i];
+
+        if (nextPos <= n + 1)
+            dp[nextPos] = max(dp[nextPos], dp[i] + p[i]);
+    }
+    cout << max(dp[n], dp[n + 1]);
     return 0;
 }
