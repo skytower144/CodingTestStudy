@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <queue>
 
 using namespace std;
 
@@ -10,25 +11,21 @@ int main() {
     int n, k;
     cin >> n >> k;
 
-    vector<int> weight(n + 1, 0);
-    vector<int> value(n + 1, 0);
+    vector<int> w(n + 1, 0);
+    vector<int> v(n + 1, 0);
 
     for (int i = 1; i <= n; i++)
-        cin >> weight[i] >> value[i];
+        cin >> w[i] >> v[i];
     
-    vector<vector<int>> dp(k + 1, vector<int>(n + 1, 0));
-
-    for (int w = 1; w <= k; w++) {
-        for (int i = 1; i <= n; i++) {
-            int includedValue;
-            if (w - weight[i] < 0)
-                includedValue = 0;
+    vector<vector<int>> dp(n + 1, vector<int>(k + 1, 0));
+    for (int i = 1; i <= n; i++) {
+        for (int j = 1; j <= k; j++) {
+            if (j < w[i])
+                dp[i][j] = dp[i - 1][j];
             else
-                includedValue = dp[w - weight[i]][i - 1] + value[i];
-            
-            dp[w][i] = max(includedValue, dp[w][i - 1]);
+                dp[i][j] = max(dp[i - 1][j], dp[i - 1][j - w[i]] + v[i]);
         }
     }
-    cout << dp[k][n];
+    cout << dp[n][k];
     return 0;
 }
