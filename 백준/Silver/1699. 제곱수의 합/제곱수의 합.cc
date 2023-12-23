@@ -1,6 +1,4 @@
 #include <iostream>
-#include <vector>
-#include <cmath>
 
 using namespace std;
 
@@ -10,44 +8,13 @@ int main() {
     int n;
     cin >> n;
 
-    vector<int> dp(n + 2, 100000);
-    dp[0] = 0;
-    dp[1] = 1;
-    dp[2] = 2;
+    int dp[100001];
 
-    for (int i = 3; i <= n; i++) {
-        int squareRoot = (int)sqrt(i);
-        while (squareRoot) {
-            dp[i] = min(dp[i], dp[i - pow(squareRoot, 2)] + 1);
-            squareRoot--;
-        }
+    for (int i = 1; i <= n; i++) {
+        dp[i] = i;
+        for (int j = 1; j * j <= i; j++)
+            dp[i] = min(dp[i], dp[i - j * j] + 1);
     }
     cout << dp[n];
-
     return 0;
 }
-/*
-
-1 : 1       (1)
-2 : 1 1     (2)
-3 : 1 1 1   (3)
-
-4 : 2       (1)
-5 : 2 1     (2)
-6 : 2 1 1   (3)
-7 : 2 1 1 1 (4)
-8 : 2 2     (3)
-
-9 : 3
-10: 3 1
-11: 3 1 1
-12: 2 2 2
-13: 3 2
-14: 3 2 1
-15: 3 2 1 1
-
-16: 4
-17: 4 1
-18: 3 3
-
-*/
