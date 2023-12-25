@@ -11,25 +11,24 @@ int main() {
     cin >> n;
 
     int height;
-    vector<int> mountains;
-    vector<int> kills(n, 0);
-    vector<bool> blocked(n, false);
+    int highest;
+    int killStreak = 0;
+    int maxKills = 0;
 
     for (int i = 0; i < n; i++) {
         cin >> height;
-
-        for (int j = 0; j < i; j++) {
-            if (!blocked[j] && mountains[j] > height)
-                kills[j]++;
-            else
-                blocked[j] = true;
+        if (i == 0) {
+            highest = height;
+            continue;
         }
-        mountains.push_back(height);
+        if (highest > height)
+            killStreak++;
+        else {
+            killStreak = 0;
+            highest = height;
+        }
+        maxKills = max(maxKills, killStreak);
     }
-    int maxKills = 0;
-    for (int i = 0; i < n; i++)
-        maxKills = max(maxKills, kills[i]);
-
     cout << maxKills;    
     return 0;
 }
