@@ -5,33 +5,33 @@
 
 using namespace std;
 
+int GetOnes(int n) {
+    int count = 0;
+
+    while (n > 0) {
+        if (n % 2) count++;
+        n /= 2;
+    }
+    return count;
+}
 int main() {
+    // https://www.acmicpc.net/source/70433469
+    // 비트마스킹
+
     ios_base::sync_with_stdio(false); cin.tie(NULL);
     
     int n, k;
     cin >> n >> k;
 
-    vector<int> bottles;
-    while (n > 0) {
-        for (int i = 1;  ; i++) {
-            if (pow(2, i) > n) {
-                n -= pow(2, i - 1);
-                bottles.push_back(pow(2, i - 1));
-                break;
-            }
-        }
-    }
     int answer = 0;
-    int totalBottles = bottles.size();
-    while (totalBottles > 1 && totalBottles > k) {
-        answer += bottles[totalBottles - 2] - bottles[totalBottles - 1];
-        bottles[totalBottles - 2] *= 2;
+    for (int i = 1; ; i *= 2) {
+        int ones = GetOnes(n);
+        if (ones <= k) break;
 
-        bottles.pop_back();
-        totalBottles--;
-
-        // for (auto b : bottles) cout << b << " ";
-        // cout << endl;
+        if ((n & i) == i) {
+            n += i;
+            answer += i;
+        }
     }
     cout << answer;
     return 0;
