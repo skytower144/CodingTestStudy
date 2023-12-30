@@ -10,30 +10,36 @@ int main() {
     int n, k;
     cin >> n >> k;
 
-    int balls = 0;
-    vector<int> basket(k, 0);
-    for (int i = 0; i < k; i++) {
-        if (i == k - 1)
-            basket[i] = n - balls;
-        else
-            basket[i] = i + 1;
-        balls += basket[i];
-    }
-    if (basket[k - 1] <= 0 || basket[k - 2] >= basket[k - 1])
-        cout << -1;
+    int answer = 0;
+    int totalBalls = k * (k + 1) / 2;
+    if (totalBalls > n) 
+        answer = -1;
+    
     else {
-        int index = k - 2;
-        while (basket[k - 1] > basket[k - 2]) {
-            if (index == k - 2 && basket[k - 1] - 1 <= basket[k - 2] + 1)
-                break;
-            else if (basket[k - 1] - 1 <= basket[k - 2])
-                break;
-            basket[index]++;
-            basket[k - 1]--;
-            index--;
-            if (index == -1) index = k - 2;
-        }
-        cout << basket[k - 1] - basket[0];
+        n -= totalBalls;
+        if (n % k)
+            answer = k;
+        else
+            answer = k - 1;
     }
+    cout << answer;
     return 0;   
 }
+/*
+12 4
+======
+
+1 2 3 4 = 10
+
+=> 2개 남음
+
+마지막 자리부터 1개씩 채워나감
+1. 마지막까지 못 채울 경우: n % 남은 공 > 0
+1.....(4+1) => (4+1) - 1 = 4
+               (k + 1) - 1 = k
+
+2. 마지막까지 딱 맞춰서 채울 경우: n % 남은 공 == 0
+(1+1)...(4+1) => (4+1) - (1+1) = 5
+                 (k + 1) - (1+1) = k - 1
+
+*/
