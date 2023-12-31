@@ -10,22 +10,21 @@ int main() {
 
     string l, r;
     cin >> l >> r;
-    
-    int lSize = l.size();
-    int rSize = r.size();
-    if (lSize < rSize)
-        l = string(rSize - lSize, '0') + l;
-    else
-        r = string(lSize - rSize, '0') + r;
-    
-    int size = min(lSize, rSize); 
+
+    if (l.size() != r.size()) {
+        cout << 0;
+        return 0;
+    }
+    int size = l.size(); 
     int eightCount = 0;
 
     for (int i = 0; i < size; i++) {
         if (l[i] == '8' && r[i] == '8')
             eightCount++;
+
         else if (l[i] == r[i])
             continue;
+        
         else break;
     }
     cout << eightCount;
