@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <queue>
 #include <climits>
-#include <set>
 
 using namespace std;
 
@@ -39,21 +38,14 @@ int main() {
 
     vector<vector<pair<int, int>>> roads(10001);
     vector<int> distance(10001, INT_MAX);
-    set<int> roadPoints;
     int shortStart, shortEnd, length;
 
-    roadPoints.insert(0);
-    roadPoints.insert(d);
+    for (int i = 0; i < d; i++)
+        roads[i].push_back({1, i + 1});
+     
     for (int i = 0; i < n; i++) {
         cin >> shortStart >> shortEnd >> length;
         roads[shortStart].push_back({length, shortEnd});
-        roadPoints.insert(shortStart);
-        roadPoints.insert(shortEnd);
-    }
-    vector<int> rp(roadPoints.begin(), roadPoints.end());
-    for (int i = 1; i < rp.size(); i++) {
-        for (int j = 0; j < i; j++)
-            roads[rp[j]].push_back({rp[i] - rp[j], rp[i]});
     }
     Dijkstra(0, roads, distance);
     cout << distance[d];
