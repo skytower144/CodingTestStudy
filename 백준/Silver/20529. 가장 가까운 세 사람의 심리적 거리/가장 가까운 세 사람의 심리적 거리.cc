@@ -7,14 +7,13 @@ using namespace std;
 vector<vector<int>> dp;
 vector<string> mbti;
 
-int GetDistance(int idx1, int idx2) {
-    string a = mbti[idx1];
-    string b = mbti[idx2];
+int GetDistance(string a, string b, string c) {
     int distance = 0;
 
     for (int i = 0; i < 4; i++) {
-        if (a[i] != b[i])
-            distance++;
+        if (a[i] != b[i]) distance++;
+        if (b[i] != c[i]) distance++;
+        if (a[i] != c[i]) distance++;
     }
     return distance;
 }
@@ -35,17 +34,16 @@ int main() {
             cin >> mbti[i];
         
         int minDistance = 100000;
+        int totalDistance;
         bool flag = false;
 
         for (int i = 0; i < n; i++) {
             for (int j = i + 1; j < n; j++) {
                 for (int k = j + 1; k < n; k++) {
-                    int totalDistance;
-
                     if (mbti[i] == mbti[j] && mbti[j] == mbti[k])
                         totalDistance = 0;
                     else
-                        totalDistance = GetDistance(i, j) + GetDistance(j, k) + GetDistance(i, k);
+                        totalDistance = GetDistance(mbti[i], mbti[j], mbti[k]);
                     
                     minDistance = min(minDistance, totalDistance);
                     if (minDistance == 0) {
