@@ -29,31 +29,22 @@ int main() {
         cin >> n;
 
         mbti = vector<string>(n);
-
-        for (int i = 0; i < n; i++)
-            cin >> mbti[i];
+        for (int i = 0; i < n; i++) cin >> mbti[i];
         
+        if (n > 32) {
+            cout << 0 << '\n';
+            continue;
+        }
         int minDistance = 100000;
         int totalDistance;
-        bool flag = false;
 
         for (int i = 0; i < n - 2; i++) {
             for (int j = i + 1; j < n - 1; j++) {
                 for (int k = j + 1; k < n; k++) {
-                    if (mbti[i] == mbti[j] && mbti[j] == mbti[k])
-                        totalDistance = 0;
-                    else
-                        totalDistance = GetDistance(mbti[i], mbti[j], mbti[k]);
-                    
+                    totalDistance = GetDistance(mbti[i], mbti[j], mbti[k]);
                     minDistance = min(minDistance, totalDistance);
-                    if (minDistance == 0) {
-                        flag = true;
-                        break;
-                    }
                 }
-                if (flag) break;
             }
-            if (flag) break;
         }
         cout << minDistance << '\n';
     }
