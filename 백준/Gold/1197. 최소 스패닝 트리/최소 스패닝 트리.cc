@@ -1,51 +1,52 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <queue>
 #include <climits>
 
 using namespace std;
 
-vector<int> parent;
 int v, e;
 
-int FindParent(int x) {
-    if (parent[x] != x)
-        parent[x] = FindParent(parent[x]);
-    return parent[x];
-}
-void UnionParent(int a, int b) {
-    int parentA = FindParent(a);
-    int parentB = FindParent(b);
+int Prim(int start, vector<vector<pair<int, int>>>& graph) {
+    priority_queue<pair<int, int>> pq;
+    vector<int> visited(v + 1, 0);
+    int totalCost = 0;
+    pq.push({0, start});
 
-    if (parentA < parentB)
-        parent[parentB] = parentA;
-    else
-        parent[parentA] = parentB;
+    while (!pq.empty()) {
+        int popped = pq.top().second;
+        int cost = -pq.top().first;
+        pq.pop();
+
+        if (visited[popped])
+            continue;
+
+        visited[popped] = 1;
+        totalCost += cost;
+
+        for (const auto& [cst, next] : graph[popped]) {
+            if (!visited[next])
+                pq.push({-cst, next});
+        }
+    }
+    return totalCost;
 }
 int main() {
     ios_base::sync_with_stdio(false); cin.tie(NULL);
 
     cin >> v >> e;
 
-    int a, b, c;
-    vector<vector<int>> edges;
-
-    for (int i = 0; i <= v; i++)
-        parent.push_back(i);
+    int answer = 0;
+    vector<vector<pair<int, int>>> graph(v + 1);
 
     for (int i = 0; i < e; i++) {
+        int a, b, c;
         cin >> a >> b >> c;
-        edges.push_back({c, a, b});
+        graph[a].push_back({c, b});
+        graph[b].push_back({c, a});
     }
-    sort(edges.begin(), edges.end());
-    int answer = 0;
-
-    for (const auto& edge : edges) {
-        if (FindParent(edge[1]) != FindParent(edge[2])) {
-            UnionParent(edge[1], edge[2]);
-            answer += edge[0];
-        }
-    }
+    answer = Prim(1, graph);
     cout << answer;
     return 0;
 }
