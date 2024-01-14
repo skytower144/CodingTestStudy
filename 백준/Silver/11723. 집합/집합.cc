@@ -16,6 +16,9 @@ int Remove(int result, int num) {
 bool Check(int result, int num) {
     return result & (1 << (num - 1));
 }
+int Toggle(int result, int num) {
+    return result ^ (1 << (num - 1));
+}
 int main() {
     ios_base::sync_with_stdio(false); cin.tie(NULL);
 
@@ -47,7 +50,7 @@ int main() {
                 cout << Check(result, num) << '\n';
 
             else if (command == "toggle")
-                result = Check(result, num) ? Remove(result, num) : Add(result, num);
+                result = Toggle(result, num);
         }
     }
     return 0;
