@@ -12,22 +12,38 @@ int main() {
     string s;
     cin >> n >> m >> s;
 
-    string p = "IOI";
-    for (int i = 2; i <= n; i++)
-        p += "OI";
-    
+    string temp = "";
     int answer = 0;
-    int idx = 0;
-    while (idx < m) {
-        idx = s.find(p, idx);
+    int count = 0;
+    bool last = false;
 
-        if (idx == string::npos)
-            break;
+    for (int i = 0; i < m; i++) {
+        if (temp == "" && s[i] == 'I') {
+            temp += s[i];
+            count = 0;
+        }
+        else if (temp.back() == 'O' && s[i] == 'I') {
+            temp += s[i];
+            count++;
+        }
+        else if (temp.back() == 'I' && s[i] == 'O')
+            temp += s[i];
         
-        // cout << "found at : " << idx << '\n';
-        idx++;
-        answer++;
+        else {
+            if (count >= n) {
+                answer += count - n + 1;
+                if (i == m - 1)
+                    last = true;
+            }
+            if (s[i] == 'I')
+                temp = 'I';
+            else
+                temp = "";
+            count = 0;
+        }
     }
-    cout << answer;   
+    if (!last && count >= n)
+        answer += count - n + 1;
+    cout << answer;
     return 0;
 }
