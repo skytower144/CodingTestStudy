@@ -12,21 +12,21 @@ int main() {
     int n, m;
     cin >> n >> m;
 
-    unordered_map<string, string> pokedex1, pokedex2;
-    string pokemon, userInput;
+    unordered_map<string, int> pokedex;
+    vector<string> pokemons(n + 1, "");
+    string userInput;
 
     for (int i = 1; i <= n; i++) {
-        cin >> pokemon;
-        pokedex1[to_string(i)] = pokemon;
-        pokedex2[pokemon] = to_string(i);
+        cin >> pokemons[i];
+        pokedex[pokemons[i]] = i;
     }
     for (int i = 0; i < m; i++) {
         cin >> userInput;
 
-        if (pokedex1.count(userInput))
-            cout << pokedex1[userInput] << '\n';
+        if (pokedex.count(userInput))
+            cout << pokedex[userInput] << '\n';
         else
-            cout << pokedex2[userInput] << '\n';
+            cout << pokemons[stoi(userInput)] << '\n';
     }
     return 0;
 }
