@@ -2,34 +2,28 @@
 #include <vector>
 #include <algorithm>
 #include <climits>
-#include <unordered_map>
-#include <string>
 
 using namespace std;
 
 int n, m;
 vector<int> numbers;
-unordered_map<string, int> numMap;
 
-void Backtrack(vector<int>& temp, vector<int>& visited, string tag) {
-    if (temp.size() == m) {
-        if (numMap.count(tag))
-            return;
-        
-        numMap[tag]++;
+void Backtrack(vector<int>& temp, vector<int>& visited, int count) {
+    if (count == m) {
         for (const auto& num : temp)
             cout << num << " ";
         cout << '\n';
         return;
     }   
-
+    int before = 0;
     for (int i = 0; i < n; i++) {
-        if (visited[i]) continue;
+        if (visited[i] || before == numbers[i])
+            continue;
 
-        string add = '.' + to_string(numbers[i]);
         temp.push_back(numbers[i]);
+        before = numbers[i];
         visited[i] = 1;
-        Backtrack(temp, visited, tag + add);
+        Backtrack(temp, visited, count + 1);
 
         temp.pop_back();
         visited[i] = 0;
@@ -49,8 +43,8 @@ int main() {
 
     vector<int> temp;
     vector<int> visited(n, 0);
-    string tag = "";
-    Backtrack(temp, visited, tag);
+
+    Backtrack(temp, visited, 0);
 
     return 0;
 }
