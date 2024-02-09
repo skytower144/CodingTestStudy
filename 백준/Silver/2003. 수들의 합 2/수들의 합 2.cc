@@ -14,22 +14,18 @@ int main() {
     for (int i = 0; i < n; i++) {
         cin >> numbers[i];
     }
-    int left = 0, right = 0;
-    int sum = numbers[0];
+    int right = 0;
+    int sum = 0;
     int answer = 0;
 
-    while (true) {
-        if (sum < m) {
-            right++;
-            if (right == n) break;
+    for (int left = 0; left < n; left++) {
+        while (sum < m && right < n) {
             sum += numbers[right];
+            right++;
         }
-        else {
-            if (sum == m) answer++;
-            sum -= numbers[left];
-            left++;
-            if (left == n) break;
-        }
+        if (sum == m)
+            answer++;
+        sum -= numbers[left];
     }
     cout << answer;
     return 0;
