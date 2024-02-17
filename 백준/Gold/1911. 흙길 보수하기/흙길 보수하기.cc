@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <cmath>
 
 using namespace std;
 
@@ -31,10 +32,9 @@ int main() {
         else if (lastCovered < s)
             startPos = s;
 
-        for (int i = startPos; i < e; i += l) {
-            lastCovered = i + l - 1;
-            answer++;
-        }
+        int plank = ceil((e - startPos) / (double)l);
+        lastCovered = plank * l + startPos - 1;
+        answer += plank;
     }
     cout << answer;
     return 0;
