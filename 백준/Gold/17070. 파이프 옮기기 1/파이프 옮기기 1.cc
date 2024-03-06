@@ -6,78 +6,46 @@
 
 using namespace std;
 
-vector<vector<int>> grid;
-vector<vector<int>> visited;
-int dx[] = {0, 1, 1};
-int dy[] = {1, 1, 0};
-int answer = 0;
-int n;
+// DP로 풀어보기
+// https://velog.io/@eunseokim/BOJ-17070번-파이프-옮기기-1-dp-풀이-python
 
-enum Direction {
-    DOWN,
-    DIAGONAL,
-    RIGHT
-};
-
-void PrintGrid() {
-    cout << "=============================================\n";
-    for (const auto& line : grid) {
-        for (const auto& l : line)
-            cout << l << " ";
-        cout << '\n';
-    }
-}
-
-void DFS(int x, int y, Direction dir) {
-    int startIdx = 0, endIdx = 2;
-    int nx, ny;
-
-    if (x == n - 1 && y == n - 1) {
-        answer++;
-        return;
-    }
-    switch (dir) {
-        case DOWN:
-            endIdx = 1;
-            break;
-        
-        case RIGHT:
-            startIdx = 1;
-            break;
-        
-        default:
-            break;
-    }
-    for (int i = startIdx; i <= endIdx; i++) {
-        nx = x + dx[i];
-        ny = y + dy[i];
-
-        if (nx < 0 || nx >= n || ny < 0 || ny >= n)
-            continue;
-
-        if (grid[ny][nx])
-            continue;       
-
-        if (i == 1 && (grid[ny - 1][nx] || grid[ny][nx - 1]))
-            continue;
-
-        DFS(nx, ny, (Direction)i);
-    }
-}
 
 int main() {
     ios::sync_with_stdio(0), cin.tie(0);
 
+    int n;
     cin >> n;
 
-    grid = vector<vector<int>>(n, vector<int>(n, 0));
+    int grid[17][17] = {};
+    int dp[17][17][3] = {};
+
+    enum Direction {
+        RIGHT,
+        DOWN,
+        DIAGONAL
+    };
 
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++)
             cin >> grid[i][j];
     }
-    DFS(1, 0, RIGHT);
-    cout << answer;
+    dp[0][1][RIGHT] = 1;
 
+    for (int j = 2; j < n; j++) {
+        if (grid[0][j] != 1)
+            dp[0][j][RIGHT] = dp[0][j - 1][RIGHT];
+    }
+
+    for (int i = 1; i < n; i++) {
+        for (int j = 1; j < n; j++) {
+            if (grid[i][j] != 1) {
+                dp[i][j][RIGHT] = dp[i][j - 1][RIGHT] + dp[i][j - 1][DIAGONAL];
+                dp[i][j][DOWN] = dp[i - 1][j][DOWN] + dp[i - 1][j][DIAGONAL];
+            }
+            if (grid[i][j] != 1 && grid[i - 1][j] != 1 && grid[i][j - 1] != 1)
+                dp[i][j][DIAGONAL] = dp[i - 1][j - 1][RIGHT] + dp[i - 1][j - 1][DOWN] + dp[i - 1][j - 1][DIAGONAL];
+        }
+    }
+    cout << dp[n - 1][n - 1][RIGHT] + dp[n - 1][n - 1][DOWN] + dp[n - 1][n - 1][DIAGONAL];
     return 0;
 }
