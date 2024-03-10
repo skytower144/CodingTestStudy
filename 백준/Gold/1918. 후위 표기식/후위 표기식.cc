@@ -4,83 +4,63 @@
 
 using namespace std;
 
+string formula;
+int totalSize;
+
+void Parenthesis(int order) {
+    char a, b;
+    if (order == 1)
+        a = '*', b = '/';
+    else
+        a = '+', b = '-';
+    
+    for (int i = 0; i < totalSize; i++) {
+        if (formula[i] == a || formula[i] == b) {
+            int isIn = 0;
+
+            for (int j = i - 1; j >= 0; j--) {
+                if (formula[j] == ')')
+                    isIn++;
+                
+                else if (formula[j] == '(')
+                    isIn--;
+                
+                if (isIn == 0 && (isalpha(formula[j]) || formula[j] == '(')) {
+                    formula.insert(j, "(");
+                    break;
+                }
+            }
+            isIn = 0;
+            i++;
+            totalSize++;
+            for (int j = i + 1; j < totalSize; j++) {
+                if (formula[j] == '(')
+                    isIn++;
+                
+                else if (formula[j] == ')')
+                    isIn--;
+                
+                if (isIn == 0 && (isalpha(formula[j]) || formula[j] == ')')) {
+                    formula.insert(j + 1, ")");
+                    break;
+                }
+            }
+            totalSize++;
+        }
+    }
+}
+
 int main() {
     ios::sync_with_stdio(0), cin.tie(0);
 
-    string formula;
-    vector<char> op;
-
     cin >> formula;
-    int size = formula.size();
 
-    for (int i = 0; i < size; i++) {
-        if (formula[i] == '*' || formula[i] == '/') {
-            int isIn = 0;
+    vector<char> op;
+    totalSize = formula.size();
 
-            for (int j = i - 1; j >= 0; j--) {
-                if (formula[j] == ')')
-                    isIn++;
-                
-                else if (formula[j] == '(')
-                    isIn--;
-                
-                if (isIn == 0 && (isalpha(formula[j]) || formula[j] == '(')) {
-                    formula.insert(j, "(");
-                    break;
-                }
-            }
-            isIn = 0;
-            i++;
-            size++;
-            for (int j = i + 1; j < size; j++) {
-                if (formula[j] == '(')
-                    isIn++;
-                
-                else if (formula[j] == ')')
-                    isIn--;
-                
-                if (isIn == 0 && (isalpha(formula[j]) || formula[j] == ')')) {
-                    formula.insert(j + 1, ")");
-                    break;
-                }
-            }
-            size++;
-        }
-    }
-    for (int i = 0; i < size; i++) {
-        if (formula[i] == '+' || formula[i] == '-') {
-            int isIn = 0;
+    Parenthesis(1);
+    Parenthesis(2);
 
-            for (int j = i - 1; j >= 0; j--) {
-                if (formula[j] == ')')
-                    isIn++;
-                
-                else if (formula[j] == '(')
-                    isIn--;
-                
-                if (isIn == 0 && (isalpha(formula[j]) || formula[j] == '(')) {
-                    formula.insert(j, "(");
-                    break;
-                }
-            }
-            isIn = 0;
-            i++;
-            size++;
-            for (int j = i + 1; j < size; j++) {
-                if (formula[j] == '(')
-                    isIn++;
-                
-                else if (formula[j] == ')')
-                    isIn--;
-                
-                if (isIn == 0 && (isalpha(formula[j]) || formula[j] == ')')) {
-                    formula.insert(j + 1, ")");
-                    break;
-                }
-            }
-            size++;
-        }
-    }
     for (const auto& c : formula) {
         if (c == ')') {
             while (op.size()) {
