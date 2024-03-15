@@ -4,8 +4,8 @@
 
 using namespace std;
 
-vector<vector<char>> grid;
-vector<int> charExists(27, 0);
+char grid[21][21];
+int charExists[27] = {0,};
 
 int r, c;
 int maxCount = -1;
@@ -40,14 +40,12 @@ int main() {
     ios::sync_with_stdio(0), cin.tie(0);
 
     cin >> r >> c;
-
-    grid = vector<vector<char>>(r);
     string line;
 
     for (int i = 0; i < r; i++) {
         cin >> line;
-        for (const auto& c : line)
-            grid[i].push_back(c);
+        for (int j = 0; j < c; j++)
+            grid[i][j] = line[j];
     }
     DFS(0, 0);
     cout << maxCount;
