@@ -2,38 +2,33 @@
 #include <vector>
 #include <algorithm>
 #include <unordered_map>
-#include <queue>
 
 using namespace std;
 
-struct wordInfo
+struct WordInfo
 {
     int count;
-    int length;
     string word;
-};
-typedef struct wordInfo wordInfo;
 
-struct compare
-{
-    bool operator()(wordInfo &a, wordInfo &b) {
-        if (a.count != b.count)
-            return a.count < b.count;
-        
-        if (a.length != b.length)
-            return a.length < b.length;
-        
-        return a.word > b.word;
-    }
 };
+typedef struct WordInfo WordInfo;
+
+bool compare(WordInfo &a, WordInfo &b) {
+    if (a.count != b.count)
+        return a.count > b.count;
+    
+    if (a.word.size() != b.word.size())
+        return a.word.size() > b.word.size();
+    
+    return a.word < b.word;
+}
 
 int main() {
     ios::sync_with_stdio(0), cin.tie(0);
 
-    int n, m;
+int n, m;
     string word;
     unordered_map<string, int> wordDict;
-    priority_queue<wordInfo, vector<wordInfo>, compare> pq;
 
     cin >> n >> m;
 
@@ -42,15 +37,14 @@ int main() {
         if (word.size() >= m)
             wordDict[word]++;
     }
-    for (const auto& [word, count] : wordDict) {
-        int wordSize = word.size();
-        wordInfo info = {count, wordSize, word};
-        pq.push(info);
-    }
-    int pqSize = pq.size();
-    for (int i = 0; i < pqSize; i++) {
-        cout << pq.top().word << '\n';
-        pq.pop();
-    }
+    vector<WordInfo> words;
+    for (const auto [word, count] : wordDict)
+        words.push_back({count, word});
+
+    sort(words.begin(), words.end(), compare);
+
+    for (int i = 0; i < words.size(); i++)
+        cout << words[i].word << '\n';
+
     return 0;
 }
