@@ -23,7 +23,7 @@ int UpdatedSeed(int seed, int addedNum) {
 int main() {
     ios::sync_with_stdio(0), cin.tie(0);
 
-    int n;
+    int n, updatedSeed;
     const int C = 1000000000;
 
     cin >> n;
@@ -33,22 +33,20 @@ int main() {
     
     for (int i = 2; i <= n; i++) {
         for (int j = 0; j <= 9; j++) {
-            if (j == 0) {
-                for (int k = 0; k < 1024; k++) {
-                    dp[UpdatedSeed(k, 0)][i][j] += dp[k][i - 1][1];
-                    dp[UpdatedSeed(k, 0)][i][j] %= C;
+            for (int k = 0; k < 1024; k++) {
+                updatedSeed = UpdatedSeed(k, j);
+
+                if (j == 0) {
+                    dp[updatedSeed][i][j] += dp[k][i - 1][1];
+                    dp[updatedSeed][i][j] %= C;
                 }
-            }
-            else if (j == 9) {
-                for (int k = 0; k < 1024; k++) {
-                    dp[UpdatedSeed(k, 9)][i][j] += dp[k][i - 1][8];
-                    dp[UpdatedSeed(k, 9)][i][j] %= C;
+                else if (j == 9) {
+                    dp[updatedSeed][i][j] += dp[k][i - 1][8];
+                    dp[updatedSeed][i][j] %= C;
                 }
-            }
-            else {
-                for (int k = 0; k < 1024; k++) {
-                    dp[UpdatedSeed(k, j)][i][j] += (dp[k][i - 1][j - 1] + dp[k][i - 1][j + 1]) % C;
-                    dp[UpdatedSeed(k, j)][i][j] %= C;
+                else {
+                    dp[updatedSeed][i][j] += (dp[k][i - 1][j - 1] + dp[k][i - 1][j + 1]) % C;
+                    dp[updatedSeed][i][j] %= C;
                 }
             }
         }
