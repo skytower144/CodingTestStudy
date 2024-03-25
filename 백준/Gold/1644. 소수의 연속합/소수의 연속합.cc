@@ -26,34 +26,19 @@ int main() {
     int right = 0;
     int limit = primes.size();
 
-    if (limit == 0) {
-        cout << 0;
-        return 0;
-    }
-    int totalSum = primes[left];
+    int totalSum = 0;
     int answer = 0;
 
     while (left <= right) {
-        if (totalSum == n) {
+        if (totalSum == n)
             answer++;
 
-            right++;
-            if (right == limit)
-                break;
-            
-            totalSum += primes[right];
+        if (totalSum <= n) {
+            if (right == limit) break;
+            totalSum += primes[right++];
         }
-        else if (totalSum < n) {
-            right++;
-            if (right == limit)
-                break;
-            
-            totalSum += primes[right];
-        }
-        else {
-            totalSum -= primes[left];
-            left++;
-        }
+        else
+            totalSum -= primes[left++];
     }
     cout << answer;
     return 0;
