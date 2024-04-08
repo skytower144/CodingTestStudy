@@ -17,11 +17,8 @@ int dx[] = {0, 0, 0, 1, -1};
 int dy[] = {0, -1, 1, 0, 0};
 
 void MoveShark() {
-    int x, y, nx, ny;
-    vector<pair<int, int>> tempSharks;
-
+    int x, y, nx, ny, reducedSpeed = 0;
     int totalSharks = sharks.size();
-    int reducedSpeed;
 
     for (int i = 0; i < totalSharks; i++) {
         nx = x = sharks[i].first;
@@ -62,7 +59,7 @@ void MoveShark() {
             }
         }
         if (temp[ny][nx][0] == -1) {
-            tempSharks.push_back({nx, ny});
+            sharks[i] = {nx, ny};
             temp[ny][nx] = grid[y][x];
         }
         else if (temp[ny][nx][2] < grid[y][x][2])
@@ -70,11 +67,13 @@ void MoveShark() {
         
         grid[y][x] = {-1};
     }
-    for (const auto& [x, y] : tempSharks) {
+    for (const auto& [x, y] : sharks) {
+        if (temp[y][x][0] == -1)
+            continue;
+        
         grid[y][x] = temp[y][x];
         temp[y][x] = {-1};
     }
-    sharks = tempSharks;
 }
 int main() {
     ios::sync_with_stdio(0), cin.tie(0);
