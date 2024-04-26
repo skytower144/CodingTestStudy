@@ -5,26 +5,17 @@
 using namespace std;
 
 int solution(vector<int> people, int limit) {
-    int answer = 0, sum = 0;
-    int left = 0;
-    int right = people.size() - 1;
+    int answer = 0;
+    int sum = 0;
     
     sort(people.begin(), people.end());
 
-    while (left < right) {
-        sum = !sum ? people[left] + people[right] : sum + people[right];
-        
-        if (sum > limit) {
-            sum -= people[right];
-            right--;
-        }
-        else if (sum <= limit) {
-            left++;
-            right--;
-            sum = (left == right) ? people[left] : 0;
-        }
+    for (int l = 0, r = people.size() - 1; l <= r; r--) {
+        sum = people[l] + people[r];
         answer++;
+        
+        if (sum <= limit)
+            l++;
     }
-    if (sum) answer++;
     return answer;
 }
