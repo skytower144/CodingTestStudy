@@ -7,23 +7,15 @@ using namespace std;
 vector<int> solution(int n, vector<string> words) {
     vector<int> answer = {0, 0};
     unordered_map<string, int> wordDict;
-    char lastChar = words[0][0];
-    int turns = 1;
-    int person = 0;
+    wordDict[words[0]]++;
     
-    for (const auto& word : words) {
-        if (wordDict.count(word) || lastChar != word[0]) {
-            answer = {person + 1, turns};
+    for (int i = 1; i < words.size(); i++) {
+        if (wordDict[words[i]] || words[i][0] != words[i - 1].back()) {
+            answer[0] = i % n + 1;
+            answer[1] = i / n + 1;
             break;
         }
-        lastChar = word.back();
-        wordDict[word]++;
-        person++;
-        
-        if (person == n) {
-            person = 0;
-            turns++;
-        }
+        wordDict[words[i]]++;
     }
     return answer;
 }
