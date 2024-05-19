@@ -8,38 +8,32 @@ using namespace std;
 int solution(vector<int> priorities, int location) {
     int answer = 0;
     int n = priorities.size();
-
-    queue<int> q;
-    int maxPriority = -1;
-    
-    for (int i = 0; i < n; i++)
-        q.push(priorities[i]);
     
     vector<int> order = priorities;
+    queue <int> q;
+    
     sort(order.begin(), order.end());
-    maxPriority = order.back();
+    int maxPriority = order.back();
+    
+    for (int i = 0; i < n; i++)
+        q.push(i);
     
     while (!q.empty()) {
-        int popped = q.front();
+        int idx = q.front();
         q.pop();
-
-        answer++;
-        location--;
         
-        if (popped < maxPriority) {
-            q.push(popped);
-            answer--;
-            
-            if (location == -1)
-                location = n - 1 - answer;
-        }
+        if (priorities[idx] != maxPriority)
+            q.push(idx);
+        
         else {
+            answer++;
             order.pop_back();
+            
+            if (idx == location)
+                return answer;
+            
             if (!order.empty())
                 maxPriority = order.back();
-
-            if (location == -1)
-                return answer;
         }
     }
     return 0;
