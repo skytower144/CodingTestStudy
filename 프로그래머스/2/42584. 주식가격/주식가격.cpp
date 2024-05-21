@@ -1,23 +1,23 @@
 #include <string>
 #include <vector>
-#include <iostream>
+#include <queue>
 
 using namespace std;
 
 vector<int> solution(vector<int> prices) {
     vector<int> answer;
+    vector<int> stack = {0};
     
-    for (int i = 0; i < prices.size(); i++) {
-        int index = -1;
-        for (int j = i + 1; j < prices.size(); j++) {
-            if (prices[i] > prices[j]) {
-                index = j;
-                break;
-            }
+    for (int i = prices.size() - 1; i >= 0; i--)
+        answer.push_back(i);
+    
+    for (int i = 1; i < prices.size(); i++) {
+        while (!stack.empty() && prices[stack.back()] > prices[i]) {
+            int popped = stack.back();
+            stack.pop_back();
+            answer[popped] = i - popped;
         }
-        if (index == - 1)
-            index = prices.size() - 1;
-        answer.push_back(index - i);
+        stack.push_back(i);
     }
     return answer;
 }
