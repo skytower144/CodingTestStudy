@@ -2,11 +2,8 @@
 #include <string>
 #include <vector>
 #include <cmath>
-#include <climits>
 
 using namespace std;
-
-int minMoves = INT_MAX;
 
 int GetAlphabetAmount(char target)
 {
@@ -15,62 +12,25 @@ int GetAlphabetAmount(char target)
     return min(moveUp, moveDown);
 }
 
-void GetTotalMoves(string name, int currentPos, int count, int dir)
-{
-    int nameSize = name.size();
-    int tempCount = 0;
-
-    if (dir < 0)
-    {
-        for (int i = 0; i < name.size(); i++)
-        {
-            currentPos = (currentPos + nameSize - 1) % nameSize;
-            tempCount++;
-            
-            if (name[currentPos] != 'A')
-            {
-                name[currentPos] = 'A';
-                count += tempCount;
-                GetTotalMoves(name, currentPos, count, 1);
-                GetTotalMoves(name, currentPos, count, -1);
-            }
-        }
-    }
-    else
-    {
-        for (int i = 0; i < name.size(); i++)
-        {
-            currentPos = (currentPos + 1) % nameSize;
-            tempCount++;
-            
-            if (name[currentPos] != 'A')
-            {
-                name[currentPos] = 'A';
-                count += tempCount;
-                GetTotalMoves(name, currentPos, count, 1);
-                GetTotalMoves(name, currentPos, count, -1);
-            }
-        }
-    }
-    minMoves = min(minMoves, count);
-}
-
 int solution(string name) {
-    int answer = 0, cursor = 0;
+    int answer = 0;
+    int nameSize = name.size();
+    int minMoveX = nameSize - 1;
     
-    if (name[0] != 'A')
-    {
-        answer += GetAlphabetAmount(name[0]);
-        name[0] = 'A';
-    }
-    GetTotalMoves(name, 0, 0, 1);
-    GetTotalMoves(name, 0, 0, -1);
-    
-    for (int i = 0; i < name.size(); i++)
+    for (int i = 0; i < nameSize; i++)
     {
         if (name[i] != 'A')
             answer += GetAlphabetAmount(name[i]);
     }
-    answer += minMoves;
+    for (int i = 0; i < nameSize; i++)
+    {
+        int checkEndPos = i + 1;
+        while (checkEndPos < nameSize && name[checkEndPos] == 'A')
+            checkEndPos++;
+        
+        minMoveX = min(minMoveX, (i * 2) + (1) + (nameSize - 1 - checkEndPos));
+        minMoveX = min(minMoveX, (nameSize - 1 - checkEndPos) * 2 + (2) + (i));
+    }
+    answer += minMoveX;
     return answer;
 }
