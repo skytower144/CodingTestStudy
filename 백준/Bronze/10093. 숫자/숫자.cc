@@ -5,19 +5,19 @@ using namespace std;
 
 int main()
 {
-	int a, b;
+	long long a, b;
 	cin >> a >> b;
 
 	if (a > b)
 	{
-		int temp = a;
+		long long temp = a;
 		a = b;
 		b = temp;
 	}
-	int count = max(0, b - a - 1);
+	long long count = max((long long)0, b - a - 1);
 	cout << count << '\n';
 
-	for (int i = a + 1; i < b; i++)
+	for (long long i = a + 1; i < b; i++)
 		cout << i << " ";
 
     return 0;
