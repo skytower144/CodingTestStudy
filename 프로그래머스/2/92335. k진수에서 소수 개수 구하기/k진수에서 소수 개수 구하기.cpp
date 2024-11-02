@@ -27,6 +27,7 @@ string ConvertBase(int n, int k)
         converted = to_string(n % k) + converted;
         n /= k;
     }
+    converted += '0';
     return converted;
 }
 
@@ -34,27 +35,18 @@ int solution(int n, int k) {
     int answer = 0;
    
     string converted = ConvertBase(n, k);
-    string temp = "";
-    
+    long long temp = 0;    
+   
     for (int i = 0; i < converted.size(); i++)
     {
         if (converted[i] != '0')
-            temp += converted[i];
+            temp = temp * 10 + converted[i] - '0';
         
-        else if  (temp != "")
+        else if (temp > 0)
         {
-            long long num = stoull(temp);
-            if (IsPrime(num))
-                ++answer;
-            
-            temp = "";
+            answer += IsPrime(temp);
+            temp = 0;
         }
-    }
-    if (temp != "")
-    {
-        long long num = stoull(temp);
-        if (IsPrime(num))
-            ++answer;
     }
     return answer;
 }
