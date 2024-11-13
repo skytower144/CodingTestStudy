@@ -28,12 +28,6 @@ int main()
 	{
 		int towerHeight = towers[i].first;
 
-		if (stack.empty())
-		{
-			stack.push_back({ towerHeight, i });
-			answers[i] = 0;
-			continue;
-		}
 		while (!stack.empty() && stack.back().first < towerHeight)
 			stack.pop_back();
 
