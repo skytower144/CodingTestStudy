@@ -27,9 +27,9 @@ int main()
 	{
 		for (int j = 0; j < 2; j++)
 		{
-			answer += students[i][j] / 2;
+			answer += students[i][j] / k;
 
-			if (students[i][j] % 2)
+			if (students[i][j] % k)
 				answer++;
 		}
 	}
