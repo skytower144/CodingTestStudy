@@ -19,10 +19,26 @@ int main()
 		string a, b;
 		cin >> a >> b;
 
-		sort(a.begin(), a.end());
-		sort(b.begin(), b.end());
+		int alpha1[26] = {};
+		int alpha2[26] = {};
 
-		if (a == b)
+		for (char& c : a)
+			alpha1[c - 'a']++;
+
+		for (char& c : b)
+			alpha2[c - 'a']++;
+
+		bool isPossible = true;
+
+		for (int i = 0; i < 26; i++)
+		{
+			if (alpha1[i] != alpha2[i])
+			{
+				isPossible = false;
+				break;
+			}
+		}
+		if (isPossible)
 			cout << "Possible" << '\n';
 		else
 			cout << "Impossible" << '\n';
