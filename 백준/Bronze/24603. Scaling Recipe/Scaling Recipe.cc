@@ -2,8 +2,6 @@
 #include <string>
 #include <vector>
 #include <algorithm>
-#include <queue>
-#include <cmath>
 
 using namespace std;
 
@@ -15,14 +13,12 @@ int main()
 	int n, x, y;
 	cin >> n >> x >> y;
 
-	double multiply = (double)y / x;
-	vector<int> ingredients(n, 0);
-
 	for (int i = 0; i < n; i++)
-		cin >> ingredients[i];
+	{
+		int ingredient;
+		cin >> ingredient;
 
-	for (int i = 0; i < n; i++)
-		cout << (int)round(ingredients[i] * multiply) << '\n';
-
+		cout << ingredient * y / x << '\n';
+	}
 	return 0;
 }
