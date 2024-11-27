@@ -1,22 +1,39 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <unordered_map>
 #include <iostream>
 
 using namespace std;
 
+bool compare(string& a, string& b)
+{
+    return a.size() < b.size();
+}
+
 bool solution(vector<string> phone_book) {
     bool answer = true;
     int n = phone_book.size();
+    unordered_map<string, int> phoneDict;
     
-    sort(phone_book.begin(), phone_book.end());
+    sort(phone_book.begin(), phone_book.end(), compare);
     
-    for (int i = 0; i < n - 1; i++) {
-        string current = phone_book[i];
-        string compare = phone_book[i + 1].substr(0, current.size());
+    phoneDict[phone_book[0]]++;
 
-        if (compare == current)
-            return false;
+    for (int i = 1; i < phone_book.size(); i++)
+    {
+        string key = "";
+        int k = phone_book[i - 1].size();
+        
+        for (int j = 0; j < k; j++)
+        {
+            key += phone_book[i][j];
+            
+            if (phoneDict.count(key) > 0)
+                return false;
+        }
+        phoneDict[phone_book[i]]++;
     }
+    
     return answer;
 }
