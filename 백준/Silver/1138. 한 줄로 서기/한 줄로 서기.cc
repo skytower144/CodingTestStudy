@@ -5,66 +5,41 @@
 
 using namespace std;
 
-bool flag = false;
-
-void GetSolution(vector<int>& left, vector<int>& temp, vector<bool>& visited)
-{
-	if (flag)
-		return;
-
-	if (temp.size() == left.size())
-	{
-		for (int i = 0; i < temp.size(); i++)
-		{
-			int count = 0;
-			for (int j = i - 1; j >= 0; j--)
-			{
-				count += temp[i] < temp[j];
-				if (count > left[temp[i] - 1])
-					return;
-			}
-			if (count != left[temp[i] - 1])
-				return;
-		}
-
-		for (int& num : temp)
-			cout << num << " ";
-		cout << endl;
-		flag = true;
-		return;
-	}
-
-	for (int i = 0; i < left.size(); i++)
-	{
-		if (flag)
-			return;
-
-		if (visited[i])
-			continue;
-
-		temp.push_back(i + 1);
-		visited[i] = true;
-
-		GetSolution(left, temp, visited);
-
-		visited[i] = false;
-		temp.pop_back();
-	}
-}
-
 int main()
 {
 	int n;
 	cin >> n;
 
-	vector<int> left(n);
+	/*
+		키 순으로 들어오기 때문에 현재 사람이 들어갈 때 
+		앞서 들어간 사람들보다 항상 크기 때문에 키를 비교할 필요가 없음
+
+		따라서 빈 칸에만 집중
+		자신이 건너뛸 칸은 자신보다 키 큰 사람을 위해 남겨둠
+	*/
+	vector<int> people(n, 0);
+	int tallerCount;
 
 	for (int i = 0; i < n; i++)
-		cin >> left[i];
+	{
+		cin >> tallerCount;
 
-	vector<int> temp;
-	vector<bool> visited(left.size(), false);
+		for (int j = 0; j < n; j++)
+		{
+			if (people[j])
+				continue;
 
-	GetSolution(left, temp, visited);
+			tallerCount--;
+
+			if (tallerCount < 0)
+			{
+				people[j] = i + 1;
+				break;
+			}
+		}
+	}
+	for (int i = 0; i < people.size(); i++)
+		cout << people[i] << " ";
+
 	return 0;
 }
