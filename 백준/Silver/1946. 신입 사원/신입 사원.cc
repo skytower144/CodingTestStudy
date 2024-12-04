@@ -1,39 +1,58 @@
-#include <vector>
-#include <string>
 #include <iostream>
+#include <string>
+#include <vector>
 #include <algorithm>
-#include <utility>
 
 using namespace std;
 
-int main() {
-    ios::sync_with_stdio(0), cin.tie(0);
-    int t, n;
-    vector<int> answers;
-    cin >> t;
+bool compare(pair<int, int>& a, pair<int, int>& b)
+{
+	return a.first < b.first;
+}
 
-    for (int i = 0; i < t; i++) {
-        vector<pair<int, int>> candidates;
-        cin >> n;
+int main()
+{
+	ios::sync_with_stdio(0), cin.tie(0);
 
-        for (int j = 0; j < n; j++) {
-            pair<int, int> grade;
-            cin >> grade.first >> grade.second;
-            candidates.push_back(grade);
-        }
-        sort(candidates.begin(), candidates.end());
+	int t;
+	cin >> t;
 
-        int min = candidates[0].second;
-        int count = 1;
+	while (t--)
+	{
+		int excluded = 0;
 
-        for (int j = 1; j < n; j++) {
-            if (candidates[j].second < min) {
-                count++;
-                min = candidates[j].second;
-            }
-        }
-        answers.push_back(count);
-    }
-    for (auto a : answers) cout << a << endl;
-    return 0;
+		int n;
+		cin >> n;
+
+		vector<pair<int, int>> people;
+
+		for (int i = 0; i < n; i++)
+		{
+			int resume, interview;
+			cin >> resume >> interview;
+
+			people.push_back({ resume, interview });
+		}
+
+		sort(people.begin(), people.end(), compare);
+		int ct = people.size();
+
+		vector<pair<int, int>> stack;
+		stack.push_back(people[0]);
+
+		for (int i = 1; i < ct; i++)
+		{
+			if (stack.back().first < people[i].first && stack.back().second < people[i].second)
+				continue;
+
+			while (stack.back().first > people[i].first && stack.back().second > people[i].second)
+				stack.pop_back();
+
+			stack.push_back(people[i]);
+		}
+
+		cout << stack.size() << '\n';
+	}
+	
+	return 0;
 }
