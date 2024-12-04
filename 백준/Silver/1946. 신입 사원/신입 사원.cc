@@ -14,8 +14,6 @@ int main()
 
 	while (t--)
 	{
-		int excluded = 0;
-
 		int n;
 		cin >> n;
 
