@@ -5,11 +5,6 @@
 
 using namespace std;
 
-bool compare(pair<int, int>& a, pair<int, int>& b)
-{
-	return a.first < b.first;
-}
-
 int main()
 {
 	ios::sync_with_stdio(0), cin.tie(0);
@@ -34,7 +29,7 @@ int main()
 			people.push_back({ resume, interview });
 		}
 
-		sort(people.begin(), people.end(), compare);
+		sort(people.begin(), people.end());
 		int ct = people.size();
 
 		vector<pair<int, int>> stack;
