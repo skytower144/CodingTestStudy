@@ -7,6 +7,7 @@ using namespace std;
 
 int main()
 {
+    ios::sync_with_stdio(false);
 	ios::sync_with_stdio(0), cin.tie(0);
 
 	int t;
@@ -35,11 +36,8 @@ int main()
 
 		for (int i = 1; i < ct; i++)
 		{
-			if (stack.back().first < people[i].first && stack.back().second < people[i].second)
+			if (stack.back().second < people[i].second)
 				continue;
-
-			while (stack.back().first > people[i].first && stack.back().second > people[i].second)
-				stack.pop_back();
 
 			stack.push_back(people[i]);
 		}
