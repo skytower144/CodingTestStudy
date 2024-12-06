@@ -3,7 +3,6 @@
 #include <vector>
 #include <algorithm>
 #include <unordered_map>
-#include <sstream>
 
 using namespace std;
 
@@ -14,12 +13,13 @@ bool compare(string& a, string& b)
 
 int main()
 {
+	ios::sync_with_stdio(0);
+	cin.tie(0); cout.tie(0);
 
 	unordered_map<string, bool> record;
 
 	int n;
 	cin >> n;
-	getchar();
 
 	string info;
 	string name;
@@ -27,10 +27,7 @@ int main()
 
 	for (int i = 0; i < n; i++)
 	{
-		getline(cin, info);
-		stringstream ss(info);
-
-		ss >> name >> action;
+		cin >> name >> action;
 
 		if (action == "enter")
 			record[name] = true;
