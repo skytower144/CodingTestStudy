@@ -79,6 +79,19 @@ int main()
             cin >> grid[i][j];
     }
 
+    if (n <= 1)
+    {
+        ShowGrid();
+        return 0;
+    }
+
+    if (n > 5)
+    {
+        n %= 4;
+        if (n <= 1)
+            n += 4;
+    }
+
     for (currentTime = 2; currentTime <= n; currentTime++)
     {
         if (currentTime % 2 == 0)
