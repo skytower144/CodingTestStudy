@@ -90,15 +90,26 @@ int main()
 
     cin >> r >> c >> n;
 
+    if (n % 2 == 0)
+    {
+        for (int i = 0; i < r; i++)
+        {
+            for (int j = 0; j < c; j++)
+                cout << 'O';
+            cout << '\n';
+        }
+        return 0;
+    }
+
     grid = vector<vector<char>>(r, vector<char>(c, 0));
-    bombGrid = vector<vector<Bomb>>(r, vector<Bomb>(c, {-1, }));
+    bombGrid = vector<vector<Bomb>>(r, vector<Bomb>(c, { -1, }));
 
     for (int i = 0; i < r; i++)
     {
         for (int j = 0; j < c; j++)
         {
             cin >> grid[i][j];
-            
+
             if (grid[i][j] == '.')
                 continue;
 
@@ -109,10 +120,12 @@ int main()
 
     for (currentTime = 2; currentTime <= n; currentTime++)
     {
-        PlaceBombs();
-        Detonate();
+        if (currentTime % 2 == 0)
+            PlaceBombs();
+        else
+            Detonate();
     }
-
     ShowGrid();
+
     return 0;
 }
