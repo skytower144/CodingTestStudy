@@ -2,15 +2,13 @@
 #include <string>
 #include <vector>
 #include <algorithm>
-#include <unordered_map>
+#include <queue>
 
 using namespace std;
 
 vector<vector<int>> grid;
-vector<bool> visited, visited2;
+vector<bool> visited;
 int answer = 0;
-
-unordered_map<int, bool> friendMap;
 
 void FindFriends(int num, int depth)
 {
@@ -20,16 +18,11 @@ void FindFriends(int num, int depth)
     for (int friendNum : grid[num])
     {
         if (!visited[friendNum])
-        {
-            friendMap[friendNum] = true;
-
             visited[friendNum] = true;
-            FindFriends(friendNum, depth + 1);
-            visited[friendNum] = false;
-        }
+
+        FindFriends(friendNum, depth + 1);
     }
 }
-
 
 int main()
 {
@@ -50,16 +43,12 @@ int main()
         grid[num2].push_back(num1);
     }
 
-    if (grid[1].empty())
-    {
-        cout << answer;
-        return 0;
-    }
-
     visited[1] = true;
     FindFriends(1, 0);
 
-    answer = friendMap.size();
+    for (int i = 2; i <= n; i++)
+        answer += visited[i];
+
     cout << answer;
     return 0;
 }
