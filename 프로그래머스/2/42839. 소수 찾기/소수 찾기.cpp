@@ -1,53 +1,68 @@
 #include <string>
 #include <vector>
-#include <cmath>
-#include <iostream>
 #include <unordered_map>
-#define LIMIT 10000000
+#include <iostream>
 
 using namespace std;
 
-vector<int> prime(LIMIT, 1);
-unordered_map<int, int> visited;
-int answer = 0;
+const int MAX = 10000000;
 
-void InitPrime() {
-    prime[0] = 0;
-    prime[1] = 0;
+vector<bool> isPrime(10000000, true);
+unordered_map<int, bool> numMap;
+
+void InitPrime()
+{
+    isPrime[0] = false;
+    isPrime[1] = false;
+    isPrime[2] = true;
     
-    for (int i = 2; i < sqrt(LIMIT); i++) {
-        for (int j = 2; i * j < LIMIT; j++)
-            prime[i * j] = 0;
+    for (int i = 2; i <= MAX; i++)
+    {
+        if (!isPrime[i])
+            continue;
+        
+        for (int j = 2; i * j <= MAX; j++)
+            isPrime[i * j] = false;
     }
 }
-void CreateComb(string& current, string& numbers) {
-    char temp;
 
-    for (int i = 0; i < numbers.size(); i++) {
-        current += numbers[i];
-        temp = numbers[i];
-        numbers.erase(i, 1);
+void Comb(string& num, string& temp, vector<bool>& visited)
+{
+    if (!temp.empty())
+    {
+        int converted = stoi(temp);
         
-        CreateComb(current, numbers);
+        if (isPrime[converted])
+            numMap[stoi(temp)] = true;
         
-        numbers.insert(i, 1, temp);
-        current.pop_back();
-    }
-    if (current.size()) {
-        int converted = stoi(current);
-        if (visited.count(converted))
+        if (temp.size() >= num.size())
             return;
+    }
+    
+    for (int i = 0; i < num.size(); i++)
+    {
+        if (visited[i])
+            continue;
         
-        visited[converted]++;
-        if (prime[converted])
-            answer++;
+        temp.push_back(num[i]);
+        visited[i] = true;
+        
+        Comb(num, temp, visited);
+        
+        temp.pop_back();
+        visited[i] = false;
     }
 }
 
 int solution(string numbers) {
-    InitPrime();
-    string current = "";
-    CreateComb(current, numbers);
+    int answer = 0;
+    string temp = "";
     
+    vector<bool> visited(numbers.size(), false);
+    
+    InitPrime();
+    Comb(numbers, temp, visited);
+    
+    answer = numMap.size();
     return answer;
 }
