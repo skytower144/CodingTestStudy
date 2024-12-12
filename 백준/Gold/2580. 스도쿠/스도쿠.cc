@@ -43,8 +43,7 @@ bool FindSolution(int idx)
         existingColNums[x][k] = true;
         existingBoxNums[boxIdx][k] = true;
 
-        bool check = FindSolution(idx + 1);
-        if (check)
+        if (FindSolution(idx + 1))
             return true;
 
         sudoku[y][x] = 0;
