@@ -21,12 +21,12 @@ void Print()
     }
 }
 
-void FindSolution(int idx)
+bool FindSolution(int idx)
 {
     if (idx == blanks.size())
     {
         Print();
-        exit(0);
+        return true;
     }
 
     int x = blanks[idx].first;
@@ -43,13 +43,17 @@ void FindSolution(int idx)
         existingColNums[x][k] = true;
         existingBoxNums[boxIdx][k] = true;
 
-        FindSolution(idx + 1);
+        bool check = FindSolution(idx + 1);
+        if (check)
+            return true;
 
         sudoku[y][x] = 0;
         existingRowNums[y][k] = false;
         existingColNums[x][k] = false;
         existingBoxNums[boxIdx][k] = false;
     }
+
+    return false;
 }
 
 int main()
