@@ -6,9 +6,9 @@
 using namespace std;
 
 vector<vector<int>> sudoku(9, vector<int>(9, 0));
-vector<vector<bool>> existingRowNums(9, vector<bool>(10, false));
-vector<vector<bool>> existingColNums(9, vector<bool>(10, false));
-vector<vector<bool>> existingBoxNums(9, vector<bool>(10, false));
+bool existingRowNums[9][10];
+bool existingColNums[9][10];
+bool existingBoxNums[9][10];
 vector<pair<int, int>> blanks;
 
 void Print()
