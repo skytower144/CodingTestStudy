@@ -11,7 +11,6 @@ bool foundSolution = false;
 
 void Print()
 {
-    cout << '\n';
     for (int i = 0; i < 9; i++)
     {
         for (int j = 0; j < 9; j++)
@@ -52,7 +51,7 @@ void FindSolution(int idx)
     {
         foundSolution = true;
         Print();
-        return;
+        exit(0);
     }
 
     int x = blanks[idx].first;
