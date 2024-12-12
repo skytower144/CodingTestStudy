@@ -21,21 +21,6 @@ void Print()
     }
 }
 
-bool CanPlace(const int& x, const int& y, const int& num)
-{
-    // 만약 x번째 열에 해당 숫자가 존재한다면
-    if (existingColNums[x][num])
-        return false;
-
-    if (existingRowNums[y][num])
-        return false;
-
-    if (existingBoxNums[y / 3 * 3 + x / 3][num])
-        return false;
-
-    return true;
-}
-
 void FindSolution(int idx)
 {
     if (idx == blanks.size())
@@ -50,7 +35,7 @@ void FindSolution(int idx)
     
     for (int k = 1; k <= 9; k++)
     {
-        if (!CanPlace(x, y, k))
+        if (existingColNums[x][k] || existingRowNums[y][k] || existingBoxNums[boxIdx][k])
             continue;
 
         sudoku[y][x] = k;
