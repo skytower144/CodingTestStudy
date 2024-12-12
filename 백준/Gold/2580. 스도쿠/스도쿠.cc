@@ -32,7 +32,7 @@ bool FindSolution(int idx)
     int x = blanks[idx].first;
     int y = blanks[idx].second;
     int boxIdx = y / 3 * 3 + x / 3;
-    
+
     for (int k = 1; k <= 9; k++)
     {
         if (existingColNums[x][k] || existingRowNums[y][k] || existingBoxNums[boxIdx][k])
