@@ -5,7 +5,7 @@
 
 using namespace std;
 
-vector<vector<int>> sudoku(9, vector<int>(9, 0));
+int sudoku[9][9];
 bool existingRowNums[9][10];
 bool existingColNums[9][10];
 bool existingBoxNums[9][10];
@@ -21,7 +21,7 @@ void Print()
     }
 }
 
-bool CanPlace(int x, int y, int num)
+bool CanPlace(const int& x, const int& y, const int& num)
 {
     // 만약 x번째 열에 해당 숫자가 존재한다면
     if (existingColNums[x][num])
