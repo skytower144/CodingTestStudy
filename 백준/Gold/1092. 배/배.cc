@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <climits>
 
 using namespace std;
 
@@ -29,46 +30,29 @@ int main()
         cin >> crates[i];
 
     sort(cranes.begin(), cranes.end(), compare);
-    sort(crates.begin(), crates.end());
+    sort(crates.begin(), crates.end(), compare);
 
-    if (cranes[0] < crates.back())
+    if (cranes[0] < crates[0])
     {
         cout << -1;
         return 0;
     }
 
+    vector<int> count(n, 0);
     int answer = 0;
-
-    while (m > 0)
+    
+    for (int i = 0; i < m; i++)
     {
-        for (int i = 0; i < n; i++)
+        int carriedLeastIndex = 0;
+
+        for (int j = 0; j < n; j++)
         {
-            if (m == 0)
-                break;
-
-            bool flag = false;
-
-            for (int j = crates.size() - 1; j >= 0; j--)
-            {
-                if (cranes[i] >= crates[j])
-                {
-                    m--;
-                    crates.erase(crates.begin() + j);
-                    break;
-                }
-
-                if (j == 0)
-                {
-                    flag = true;
-                    break;
-                }
-            }
-
-            if (flag)
-                break;
+            if (cranes[j] >= crates[i] && count[carriedLeastIndex] > count[j])
+                carriedLeastIndex = j;
         }
 
-        answer++;
+        count[carriedLeastIndex]++;
+        answer = max(answer, count[carriedLeastIndex]);
     }
 
     cout << answer;
