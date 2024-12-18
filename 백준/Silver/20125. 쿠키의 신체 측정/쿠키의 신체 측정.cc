@@ -1,78 +1,93 @@
 #include <iostream>
-#include <string>
-#include <vector>
-#include <algorithm>
-#include <cmath>
-
 using namespace std;
 
-vector<string> grid;
-vector<int> bodyParts = { 1, 0, 1, 0, 0, 0, 0 };
-pair<int, int> heartPos;
-
-int partIndex = 0;
-int n;
-
-void SetBodypartLength(int x, int y)
-{
-    heartPos = { x, y + 1 };
-    int i;
-
-    for (i = heartPos.first - 1; i >= 0 && grid[heartPos.second][i] == '*'; i--)
-        bodyParts[1]++;
-
-    for (i = heartPos.first + 1; i < n && grid[heartPos.second][i] == '*'; i++)
-        bodyParts[3]++;
-
-    for (i = heartPos.second + 1; i < n && grid[i][heartPos.first] == '*'; i++)
-        bodyParts[4]++;
-
-    int j = i;
-
-    for (i = j; i < n && grid[i][heartPos.first - 1] == '*'; i++)
-        bodyParts[5]++;
-
-    for (i = j; i < n && grid[i][heartPos.first + 1] == '*'; i++)
-        bodyParts[6]++;
-}
+int CalcCookieBodySize(char** arr, int heartPosi[2], int increX, int increY, int size);
+int CalcCookieLegSize(char** arr, int heartPosi[2], int increX, int increY, int size);
 
 int main()
 {
     ios::sync_with_stdio(false); cin.tie(0);
 
-    cin >> n;
-    grid = vector<string>(n);
+    int size = 0;
+    int heartPosi[2] = { -1 };
+    int result[5]{ 0 }, index = 0;
 
-    for (int i = 0; i < n; i++)
-        cin >> grid[i];
+    cin >> size;
+    char** arr = new char* [size + 1] {0};
 
-    for (int i = 0; i < n; i++)
+    for (int i = 0; i < size; i++)
     {
-        bool flag = false;
+        arr[i] = new char[size + 1] {0};
+        cin >> arr[i];
+    }
 
-        for (int j = 0; j < n; j++)
+    for (int i = 1; i < size - 1; i++)
+    {
+        for (int j = 1; j < size - 1; j++)
         {
-            if (grid[i][j] == '*')
-            {
-                SetBodypartLength(j, i);
-                flag = true;
-                break;
-            }
-        }
-
-        if (flag)
+            if (arr[i - 1][j] != '*') continue;
+            if (arr[i + 1][j] != '*') continue;
+            if (arr[i][j - 1] != '*') continue;
+            if (arr[i][j + 1] != '*') continue;
+            heartPosi[0] = j;
+            heartPosi[1] = i;
             break;
+        }
+        if (heartPosi[0] != -1) break;
     }
 
-    cout << heartPos.second + 1 << " " << heartPos.first + 1 << '\n';
+    result[0] = CalcCookieBodySize(arr, heartPosi, -1, 0, size);
+    result[1] = CalcCookieBodySize(arr, heartPosi, 1, 0, size);
+    result[2] = CalcCookieBodySize(arr, heartPosi, 0, 1, size);
+    result[3] = CalcCookieLegSize(arr, heartPosi, -1, 1, size);
+    result[4] = CalcCookieLegSize(arr, heartPosi, 1, 1, size);
 
-    for (int i = 0; i < 7; i++)
-    {
-        if (i == 0 || i == 2)
-            continue;
+    for (int i = 1; i >= 0; i--)
+        cout << heartPosi[i] + 1 << " ";
+    cout << "\n";
 
-        cout << bodyParts[i] << " ";
-    }
-    
+    for (int i = 0; i < 5; i++)
+        cout << result[i] << " ";
+
+    delete[] arr;
+    arr = nullptr;
     return 0;
+}
+
+int CalcCookieBodySize(char** arr, int heartPosi[2], int increX, int increY, int size)
+{
+    int x = heartPosi[0], y = heartPosi[1];
+    int result = 0;
+    while (true)
+    {
+        x += increX;
+        y += increY;
+        if (x < 0 || x >= size) break;
+        if (y < 0 || y >= size) break;
+        if (arr[y][x] != '*')break;
+        result++;
+    }
+    return result;
+}
+
+int CalcCookieLegSize(char** arr, int heartPosi[2], int increX, int increY, int size)
+{
+    int x = heartPosi[0] + increX, y = heartPosi[1] + increY;
+    int result = 1;
+
+    if (x < 0 || x >= size) return 0;
+    if (y < 0 || y >= size) return 0;
+
+    while (arr[y][x] != '*')
+    {
+        y += 1;
+    }
+    while (true)
+    {
+        y += 1;
+        if (y < 0 || y >= size) break;
+        if (arr[y][x] != '*')break;
+        result++;
+    }
+    return result;
 }
