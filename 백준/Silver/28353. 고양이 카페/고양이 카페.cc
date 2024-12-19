@@ -29,12 +29,8 @@ int main()
         if (total <= k)
         {
             answer++;
-
-            cats.erase(cats.begin() + right);
-            cats.erase(cats.begin() + left);
-
-            left = 0;
-            right = cats.size() - 1;
+            left++;
+            right--;
         }
 
         else if (total > k)
