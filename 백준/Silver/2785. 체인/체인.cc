@@ -20,28 +20,23 @@ int main()
 
     int gaps = n - 1;
     int links = 0;
-
     bool flag = false;
 
     for (int i = 0; i < n - 1; i++)
     {
-        while (chains[i])
+        if (links + chains[i] <= gaps - 1)
         {
-            chains[i]--;
-            links++;
+            links += chains[i];
+            gaps--;
 
-            if (chains[i] == 0)
-                gaps--;
-
-            if (links >= gaps)
-            {
-                flag = true;
+            if (gaps == 0)
                 break;
-            }
         }
-
-        if (flag)
+        else
+        {
+            links += (gaps - links);
             break;
+        }
     }
 
     cout << links;
