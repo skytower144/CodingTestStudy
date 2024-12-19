@@ -20,17 +20,13 @@ int main()
 
     int gaps = n - 1;
     int links = 0;
-    bool flag = false;
 
     for (int i = 0; i < n - 1; i++)
     {
-        if (links + chains[i] <= gaps - 1)
+        if (links + chains[i] < gaps)
         {
             links += chains[i];
             gaps--;
-
-            if (gaps == 0)
-                break;
         }
         else
         {
