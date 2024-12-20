@@ -12,17 +12,10 @@ int main()
     int n;
     cin >> n;
 
-    
-    int rects = 0;
-    int edges = 4;
+    int verticesPerEdge = pow(2, n) + 1;
+    int answer = verticesPerEdge * verticesPerEdge;
 
-    for (int i = 1; i <= n; i++)
-    {
-        rects += pow(4, i - 1);
-        edges += pow(2, i - 1) * (pow(2, i - 1) + 1) * 2;
-    }
-
-    cout << rects + edges;
+    cout << answer;
 
     return 0;
 }
