@@ -1,23 +1,28 @@
 #include <string>
 #include <vector>
-#include <map>
+#include <iostream>
 
 using namespace std;
 
 string solution(string s, string skip, int index) {
-    string answer = "";
-    map<char, int> skipMap;
-    for (auto c : skip) skipMap[c]++;
+    bool isSkip[26] = {false, };
     
-    for (auto c : s) {
-        int count = 0;
-        while (count < index) {
+    for (const auto& c : skip)
+        isSkip[c - 'a'] = true;
+
+    for (char& c : s)
+    {
+        for (int i = 0; i < index; i++)
+        {
             c++;
-            count++;
-            if (c == 'z' + 1) c = 'a';
-            if (skipMap.count(c)) count--;
+            
+            if (c > 'z')
+                c = 'a';
+            
+            if (isSkip[c - 'a'])
+                i--;
         }
-        answer += c;
     }
-    return answer;
+    
+    return s;
 }
