@@ -34,24 +34,24 @@ int main()
         info.push_back({ country, gold, silver, bronze });
     }
 
-    sort(info.begin(), info.end());
-
+    sort(info.begin(), info.end(), compare);
     int rank = 0;
 
     for (int i = 0; i < n; i++)
     {
-        if (i > 0 && info[i - 1][1] == info[i][1] && info[i - 1][2] == info[i][2] && info[i - 1][3] == info[i][3])
-        {
-            if (info[i][0] == k)
-                break;
-
+        if (info[i][0] != k)
             continue;
+
+        rank = i + 1;
+        int j = i;
+
+        while (j > 0 && info[j - 1][1] == info[j][1] && info[j - 1][2] == info[j][2] && info[j - 1][3] == info[j][3])
+        {
+            rank--;
+            j--;
         }
 
-        rank++;
-
-        if (info[i][0] == k)
-            break;
+        break;
     }
 
     cout << rank;
