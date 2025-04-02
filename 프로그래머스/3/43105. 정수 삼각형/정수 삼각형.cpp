@@ -1,34 +1,17 @@
-#include <iostream>
 #include <string>
 #include <vector>
 
 using namespace std;
 
 int solution(vector<vector<int>> triangle) {
-    int answer = -1;
+    int answer = 0;
     
-    vector<vector<int>> dp(triangle.size());
-    
-    dp[0].push_back(triangle[0][0]);
-    
-    for (int i = 1; i < triangle.size(); i++)
+    for (int i = triangle.size() - 1; i >= 0; i--)
     {
-        dp[i] = vector<int>(triangle[i].size(), 0);
-        
-        for (int j = 0; j < triangle[i].size(); j++)
-        {
-            if (j == 0)
-                dp[i][j] = triangle[i][j] + dp[i - 1][0];
-
-            else if (j == triangle[i].size() - 1)
-                dp[i][j] = triangle[i][j] + dp[i - 1][j - 1];
-            
-            else
-                dp[i][j] = max(triangle[i][j] + dp[i - 1][j - 1], triangle[i][j] + dp[i - 1][j]);
-            
-            answer = max(answer, dp[i][j]);
-        }
+        for (int j = 0; j < triangle[i].size() - 1; j++)
+            triangle[i - 1][j] += max(triangle[i][j], triangle[i][j + 1]);
     }
-    
+
+    answer = triangle[0][0];
     return answer;
 }
