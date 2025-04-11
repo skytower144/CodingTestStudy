@@ -22,7 +22,7 @@ void FindPath(unordered_map<int, vector<int>>& nodeMap, vector<bool>& visited)
         int length = q.front().second;
         q.pop();
 
-        if (pathDistance[current] <= length + 1)
+        if (pathDistance[current] != -1)
             continue;
         
         pathDistance[current] = length + 1;
@@ -43,7 +43,7 @@ int solution(int n, vector<vector<int>> edge) {
     
     unordered_map<int, vector<int>> nodeMap;
     vector<bool> visited(n + 1, false);
-    pathDistance = vector<int>(n + 1, INT_MAX);
+    pathDistance = vector<int>(n + 1, -1);
     
     for (auto e : edge)
     {
