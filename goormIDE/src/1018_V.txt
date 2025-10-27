@@ -1,0 +1,135 @@
+//체스판 다시 칠하기 // 체스판을 만드는 모든 경우를 시도하여 최적의 방법을 찾는 문제
+
+#include <stdio.h>
+int main(void)
+{
+	char chess[51][51] = { };
+	int ct1[51][51] = {0, };	//B가 첫칸
+	int ct2[51][51] = {0, };	//W가 첫칸
+	int N; int M; ;
+	scanf("%d %d", &N, &M);
+	for(int n=0; n<N; n++)
+	{
+		scanf("%s", chess[n]);
+	}
+	for(int y=0; y<N; y++)
+	{
+		for(int x=0; x<M; x++)
+		{
+			if(y%2 == 0)
+			{
+				if(x%2 == 0)
+				{
+					if(chess[y][x] != 'B')
+						ct1[y][x]++;
+					if(chess[y][x] != 'W')
+						ct2[y][x]++;
+				}
+				else if(x%2 != 0)
+				{
+					if(chess[y][x] != 'W')
+						ct1[y][x]++;
+					if(chess[y][x] != 'B')
+						ct2[y][x]++;
+				}
+			}
+			else if(y%2 != 0)
+			{
+				if(x%2 == 0)
+				{
+					if(chess[y][x] != 'W')
+						ct1[y][x]++;
+					if(chess[y][x] != 'B')
+						ct2[y][x]++;
+				}
+				else if(x%2 != 0)
+				{
+					if(chess[y][x] != 'B')
+						ct1[y][x]++;
+					if(chess[y][x] != 'W')
+						ct2[y][x]++;
+				}
+			}
+		}
+	}
+	int min = 0;
+	for(int i=0; i<N-7; i++)
+	{
+		for(int k=0; k<M-7; k++)
+		{
+			int sum1 = 0; int sum2 = 0;
+			for(int y=0+i; y<8+i; y++)
+			{
+				for(int x=0+k; x<8+k; x++)
+				{
+					sum1 += ct1[y][x];
+					sum2 += ct2[y][x];
+				}
+			}
+			if(k==0 && i ==0)			// 계속 틀린 이유: (sum1 > sum2)	min = sum2 	else	min = sum1
+				min = sum1;				// 이런식으로 평가를 했는데 이러면
+			if (min>sum2)				//  sum1 과 sum2 값이 계산될 때마다 min변수에 갱신되버리기 때문에 틀린다.
+				min = sum2;				// 즉, min 변수가 조건에 따라 갱신되기 위해서는 min값을 기준으로 비교를 해야 한다.
+			else if(min>sum1)
+				min = sum1;
+		}
+	}
+	printf("%d\n", min);
+}
+
+-----------------------------------------------------------------------------------------------------------
+
+참고) 이러한 도출 방식도 있다.
+
+string WB[8] = {
+        "WBWBWBWB",
+        "BWBWBWBW",
+        "WBWBWBWB",
+        "BWBWBWBW",
+        "WBWBWBWB",
+        "BWBWBWBW",
+        "WBWBWBWB",
+        "BWBWBWBW"
+};
+string BW[8] = {
+        "BWBWBWBW",
+        "WBWBWBWB",
+        "BWBWBWBW",
+        "WBWBWBWB",
+        "BWBWBWBW",
+        "WBWBWBWB",
+        "BWBWBWBW",
+        "WBWBWBWB"
+};
+string board[50];				//board에 우리가 입력하는 체스보드의 형태를 설정해준다.
+int WB_cnt(int x, int y)
+{
+    int cnt = 0;
+    for(int i = 0; i < 8; i++)
+    {
+        for(int j = 0; j < 8; j++)
+        {
+            if(board[x+i][y+j] != WB[i][j])
+                cnt++;
+        }
+    }
+    return cnt;
+}
+
+int BW_cnt(int x, int y)
+{
+    int cnt = 0;
+    for(int i = 0; i < 8; i++)
+    {
+        for(int j = 0; j < 8; j++)
+        {
+            if(board[x+i][y+j] != BW[i][j])
+                cnt++;
+        }
+    }
+    return cnt;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+소감: ㅈㄴ 어려웠다.

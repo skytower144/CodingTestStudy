@@ -1,0 +1,32 @@
+//X보다 작은 수
+#include <stdio.h>
+
+int main()
+{
+	
+	int numArray, testNum, example;
+	
+	
+	scanf("%d %d", &numArray, &testNum);
+	
+	int bundle[numArray];
+		
+	for(int x = 0; x<numArray; x++)
+	{
+		scanf("%d", &example);
+		bundle[x] = example;
+	}
+	
+	
+	for(int y = 0; y<numArray; y++)
+	{
+		if(testNum>bundle[y])
+		{
+			printf("%d ", bundle[y]);
+		}
+		
+	}
+	
+	return 0;
+	
+}

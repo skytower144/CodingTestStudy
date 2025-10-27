@@ -1,0 +1,57 @@
+//층과 거주자 수의 규칙을 찾는 문제
+#include<stdio.h>
+
+int main(void)
+{	
+	int test;
+	scanf("%d", &test);
+	
+	for(int t=0; t<test; t++)
+	{
+		int a[15] = {0,};				/a[14]하면 안됀다. a[0]이 있다는 걸 잊지 말자.
+		int k,n;
+		int sum = 0;
+		for(int i=1; i<=14; i++)
+			a[i] = i;
+		scanf("%d\n%d",&k,&n);
+		for(int x=1; x<=k; x++)
+		{
+			sum = 0;					//sum을 여기서 초기화 시키는게 중요.
+			for(int y=1; y<=n; y++)
+			{
+				sum += a[y];
+				a[y] = sum;
+			}
+		}
+		printf("%d\n", a[n]);
+	}
+	return 0;
+}
+---------------------------------------------------------------------------------------------
+//비슷한 풀이 방식인듯하다.
+//2차원 배열을 통해 모든 경우의 수를 다 구해놓는 방식.
+
+#include <stdio.h>
+
+int main(){
+	int sum = 0;
+	int arr[15][15];
+	for(int i = 1; i <= 14; i++){
+		arr[0][i] = i;
+	}
+	for(int i = 1; i <= 14; i++){
+		for(int k = 1; k <= 14; k++){
+			sum = 0;
+			for(int j = 1; j <= k; j++){
+				sum+=arr[i-1][j];
+			}
+			arr[i][k] = sum;
+		}
+	}
+	int n,x,y;
+	scanf("%d",&n);
+	for(int i = 0; i < n; i++){
+		scanf("%d %d",&y, &x);
+		printf("%d\n",arr[y][x]);
+	}
+}

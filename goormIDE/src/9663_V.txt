@@ -1,0 +1,54 @@
+//N-QUEEN 문제//
+//https://cryptosalamander.tistory.com/58
+// 퀸을 놓는 위치를 일차원 배열로 설정해보는게 중요.
+// 대각선 위치 판독 중요.
+
+#include <stdio.h>
+#include <stdlib.h>
+int N;
+int counter = 0;		//각 경우의 수들을 세면서 축적되면 된다.
+int chess[15] = {0,};
+
+int check(int i, int c)
+{
+	for(int x=0; x<c; x++)
+	{
+		if(chess[x] == i || (abs(chess[x]-i) == abs(c-x)))
+			return 0;
+		// else return 1 ------------> 틀린 위치. chess[c]가 사용해도 되는 위치인지 x를 하나씩 늘리면서 체크해야 하므로
+	}								//해당 chess[x]와 만나더라도 다른 x도 그런지 체크해봐야한다.
+	return 1;//이 위치 중요!
+}
+void queen(int ct)
+{
+	if(ct == N)
+	{
+		counter++;
+		return;
+	}
+	for(int i=0; i<N; i++)
+	{
+		if(ct==0)
+		{
+			chess[0] = i;
+			queen(ct+1);
+		}
+		else
+		{
+			if(check(i,ct))
+			{
+				chess[ct] = i;
+				queen(ct+1);
+			}
+		}
+	}
+}
+
+int main(void)
+{
+	scanf("%d", &N);
+	queen(0);
+	printf("%d\n", counter);
+	
+	return 0;
+}

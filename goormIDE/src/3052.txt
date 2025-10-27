@@ -1,0 +1,54 @@
+//각 숫자가 몇 번 나왔는지 저장하기 위해 일차원 배열을 만드는 문제
+#include <stdio.h>
+
+int main()
+{
+	int list[10];
+	int left[42] = {0, };
+	int number;
+	int counter = 0;
+	for(int x=0; x<10; x++)
+	{
+		scanf("%d", &list[x]);
+	}
+	
+	for(int y=0; y<10; y++)
+	{
+		number = list[y] % 42;
+		left[number]++;
+	}
+	for(int z=0; z<42; z++)
+	{
+		if(left[z] != 0)
+		{
+			counter++;
+		}
+	}
+	printf("%d\n", counter);
+	
+	return 0;
+} 
+------------------------------------------------------------------
+
+#include <stdio.h>
+
+int main(){
+	int n=0;
+	int cnt=0; 
+    int free[42]={0,};
+	   
+	for(int i=0; i<10; i++)
+	{
+		scanf("%d",&n);
+		free[n%42]++;	             //// <-----바로 배열에 대입해버리는 방식
+		}
+	
+	for(int j=0; j<42; j++)
+	{
+		if(free[j]!=0)
+			cnt++;		
+	}
+	printf("%d", cnt);	
+    
+    return 0;    
+}

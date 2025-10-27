@@ -1,0 +1,25 @@
+#include <stdio.h>
+
+int main()
+{
+	int testNumber;
+	int input1, input2, addUp;
+	
+	
+	scanf("%d", &testNumber);
+	int memory[testNumber];
+	
+	for(int i = 0; i<testNumber; i++)
+	{
+		scanf("%d %d", &input1, &input2 );
+		addUp = input1 + input2;
+		memory[i] = addUp;
+	}
+	
+	for(int y = 0; y<testNumber; y++)
+	{
+		printf("%d\n", memory[y]);
+	}
+	
+	return 0;
+}

@@ -1,0 +1,45 @@
+//최소, 최대
+//// int least, max = 0; ....... (X)
+//// int lesat, int max = 0;.... (X)
+
+//// int least, max;
+//// least = max = 0;........... (O)
+
+#include <stdio.h>
+
+int main()
+{
+	int number, member;
+	int least, int max = 0;
+	
+	
+	scanf("%d", &number);
+	int list[number];
+	
+	for(int x=0; x<number; x++)
+	{
+		scanf("%d", &member);
+		list[x] = member;
+	}
+	
+	
+	for(int y=1; y<number; y++)
+	{
+		if(list[least]>list[y])
+		{
+			least = y;
+		}
+	}
+	
+	for(int z=1; z<number; z++)
+	{
+		if(list[max]<list[z])
+		{
+			max = z;
+		}
+	}
+	printf("%d %d\n", list[least], list[max]);
+	
+	return 0;
+	
+} 

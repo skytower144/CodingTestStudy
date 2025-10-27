@@ -1,0 +1,56 @@
+//i번째 계단에 오를 때, 몇 개의 연속한 계단을 올랐는지를 고려하여 부분문제를 정의해봅시다.
+//동적계획법
+
+#include <stdio.h>
+int stair[301] = {0,};
+int sheet[2][301] = {0,};
+int max;
+
+int compare(int a, int b)
+{
+	if(a<b)
+		return b;
+	else
+		return a;
+}
+
+int sol(int N)
+{
+	sheet[0][0] = stair[0];
+	sheet[0][1] = stair[1];
+	sheet[1][1] = stair[0]+stair[1];
+	for(int i=2; i<N; i++)
+	{
+		sheet[0][i] = compare(sheet[0][i-2],sheet[1][i-2]) + stair[i];
+		sheet[1][i] = sheet[0][i-1] + stair[i];
+	}
+	max = compare(sheet[0][N-1], sheet[1][N-1]);
+	return max;
+}
+int main()
+{
+	int N;
+	scanf("%d", &N);
+	for(int i=0; i<N; i++)
+	{
+		scanf("%d", &stair[i]); 
+	}
+	sol(N);
+	printf("%d\n", max);
+	return 0;
+}
+
+----------------------------------------------------------------
+cf)
+https://sihyungyou.github.io/baekjoon-2579/
+dp[n] = dp[i-2] + arr[i]                // 마지막계단과 전전계단까지의 최댓값
+dp[n] = dp[i-3] + arr[i-1] + arr[i]     // 마지막계단과 전계단, 전전전계단까지의 최댓값
+
+ 	dp[0] = arr[0];
+    dp[1] = max(arr[0]+arr[1], arr[1]);
+    dp[2] = max(arr[0]+arr[2], arr[1]+arr[2]);
+
+    for (i = 3; i < n; i++) dp[i] = max(dp[i-2] + arr[i], dp[i-3] + arr[i-1] + arr[i]);
+    printf("%d\n", dp[n-1]);
+
+    return 0;

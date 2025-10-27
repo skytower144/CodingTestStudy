@@ -1,0 +1,99 @@
+//포도주 시식 // 최대로 마실 수 있는 포도주의 양을 구하는 문제 // 동적 계획법//
+
+#include <stdio.h>
+int cal[3][10001] = {0,};
+int wine[10001] = {0,};
+
+int compare(int a, int b)
+{
+	if(a<b)
+		return b;
+	else
+		return a;
+}
+
+int main()
+{
+	int N;
+	scanf("%d", &N);
+	for(int i=1; i<=N; i++)
+	{
+		scanf("%d", &wine[i]);
+	}
+	cal[0][1] = wine[1];
+	
+	cal[0][2] = wine[2];
+	cal[1][2] = wine[1]+wine[2];
+	for(int i=3; i<=N; i++)
+	{
+		int max=0;											//i-2잔 뿐만 고려하는 것이 아니라
+		max = compare(cal[0][1], cal[1][1]);				//i-2 이하의 모든 잔들 중에서 max값을 구하는 과정이 필요했다.
+		for(int k=1; k <= i-2; k++)
+		{
+			int X = compare(cal[0][k], cal[1][k]);
+			if(max<X)
+				max = X;
+		}
+		cal[0][i] = max + wine[i];
+		cal[1][i] = cal[0][i-1] + wine[i];
+		/*
+		printf("cal[0][%d] : %d\n", i, cal[0][i]);
+		printf("cal[1][%d] : %d\n", i, cal[1][i]);
+		*/
+	}
+	int A = compare(cal[0][N-1], cal[1][N-1]);
+	int B = compare(cal[0][N], cal[1][N]);
+	printf("%d\n", compare(A,B));
+	
+	return 0;
+}
+
+------------------------------------------------------------------------------------------------------
+효율화한 코드:
+
+#include <stdio.h>
+int cal[3][10001] = {0,};
+int wine[10001] = {0,};
+
+int compare(int a, int b)
+{
+	if(a<b)
+		return b;
+	else
+		return a;
+}
+
+int main()
+{
+	int N;
+	int max = 0;
+	scanf("%d", &N);
+	for(int i=1; i<=N; i++)
+	{
+		scanf("%d", &wine[i]);
+	}
+	cal[0][1] = wine[1];
+	
+	cal[0][2] = wine[2];
+	cal[1][2] = wine[1]+wine[2];
+	for(int i=3; i<=N; i++)
+	{	
+		if(max < compare(cal[0][i-2], cal[1][i-2]))
+		{
+			max = compare(cal[0][i-2], cal[1][i-2]);
+		}
+		cal[0][i] = max + wine[i];
+		cal[1][i] = cal[0][i-1] + wine[i];
+
+	}
+	int A = compare(cal[0][N-1], cal[1][N-1]);
+	int B = compare(cal[0][N], cal[1][N]);
+	printf("%d\n", compare(A,B));
+	
+	return 0;
+}
+
+------------------------------------------------------------------------------------------------------
+https://www.acmicpc.net/source/29167311
+https://mygumi.tistory.com/98
+

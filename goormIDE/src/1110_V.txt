@@ -1,0 +1,37 @@
+//더하기 사이클  
+//// 처음에 입력하는 input은 고정시킴으로써 기준으로 삼는다.
+//// input이 number역할을 수행하지 않도록 구분시키는 걸 조심하자.
+//// input은 비교용이고, number은 계산에 이용되며 반복적으로 변하는 수이다.
+#include <stdio.h>
+
+int main()
+{
+	int userInput, number, a1, a2, a3;
+	int counter = 0;
+	int creation = 0;
+	
+	scanf("%d", &userInput);
+	number = userInput;
+	
+	while(1)
+	{
+		
+		a1 = number / 10;
+		a2 = number % 10;
+		a3 = (a1+a2) % 10;
+		
+		creation = a2*10 + a3;
+		//printf("%d", creation);
+		counter++;
+		
+		if(userInput == creation)
+		{
+			break;
+		}
+		number = creation;
+		
+	}
+	printf("%d", counter);
+	
+	return 0;
+} 

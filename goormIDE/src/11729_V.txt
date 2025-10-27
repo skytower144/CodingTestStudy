@@ -1,0 +1,134 @@
+//하노이탑// 재귀 함수//
+
+#include <stdio.h>
+int hanoi(int N)
+{
+	int sum = 0;
+	if (N==0)
+		return 1;
+	else
+	{
+		for(int k=0; k<N; k++)
+		{
+			if(k==0)
+				sum += hanoi(0);
+			else
+				sum += hanoi(k) + 1;
+		}
+		return sum;
+	}
+}
+
+void T(int n,int start,int target)
+{
+	int temp = 0; int og_target = target; int K = 6 - (start + target);
+	if(n==0)
+	{
+		
+	}
+	else
+	{
+		for(int i=n-1; i>=0; i--)
+		{
+			T(i,start,K);
+			printf("%d %d\n", start, og_target);
+			temp = start;
+			start = K;
+			K = temp;
+		}
+	}
+}
+int main(void)
+{
+	int input;
+	scanf("%d", &input);
+	printf("%d\n", hanoi(input));
+	T(input,1,3);
+	return 0;
+}
+
+------------------------------------------------------------------------------------------------------
+_위키피디아
+
+#include <stdio.h>
+
+void move(int from, int to)
+{
+    printf("\nMove from %d to %d", from, to);
+}
+
+void hanoi(int n, int from, int by, int to)
+{
+    if (n == 1)
+        move(from, to);
+    else
+    {
+        hanoi(n - 1, from, to, by);
+        move(from, to);
+        hanoi(n - 1, by, from, to);
+    }
+}
+
+cf) 일반적으로 원판이 n개 일 때, pow(2,n)-1번의 이동으로 원판을 모두 옮길 수 있다 (메르센 수라고 부른다).
+
+-------------------------------------------------------------------------------------------------------
+원리_1. 내가 푼 방식_
+
+hanoi(5)
+= hanoi(4) + 1
+ +hanoi(3) + 1
+ +hanoi(2) + 1
+ +hanoi(1) + 1
+ +hanoi(0)
+
+cf) T(n,start,target)
+
+T(4,1,3)							T(3,1,2)						T(3,1,3)
+= T(3,1,2) + '1 target(3)'			= T(2,1,3) + '1 target(2)'		= T(2,1,2) + '1 target(3)'
++ T(2,2,1) + '2 target'				+ T(1,3,1) + '3 target'			+ T(1,2,1) + '2 target'
++ T(1,1,2) + '1 target'				+ T(0,1,3) + '1 target'			+ T(0,1,2) + '1 target'
++ T(0,2,1) + '2 target'
+
+T(2,1,2)							T(1,1,3) = T(0,1,2) + '1 3'		T(1,2,1) = T(0,2,3) + '2 1'
+= T(1,1,3) + '1 target(2)'
++ T(0,3,1) + '3 target'
+------------------------------------------------------------------------------------------------------
+원리_2. 위키 방식_
+
+hanoi(3, 1,2,3)
+
+@hanoi(2, 1,3,2)
+1 3
+@hanoi(2, 2,1,3)
+
+1
+2
+3	_	_
+  
+	1	
+3	2	_
+
+	1
+_	2	3
+
+@hanoi(2, 1,3,2)			@hanoi(2, 2,1,3)
+
+hanoi(1, 1,2,3) = 1 3		hanoi(1, 2,3,1)
+1 2				2 3
+hanoi(1, 3,1,2) = 3 2 		hanoi(1, 1,2,3)
+
+1								1
+2	_	_					_	2	_
+
+2	_	1					1	2	_
+
+_	2	1					1	_	2	
+
+	1								1
+_	2	_					_	_	2
+
+if n==1
+ hanoi(1, 1,2,3) = 1 3
+ hanoi(1, 3,1,2) = 3 2
+ 
+ 

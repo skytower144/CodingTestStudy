@@ -1,0 +1,121 @@
+//중복 빼고 정렬하기//
+
+#include <stdio.h>
+int temp[100001];
+void merge(int data[], int left, int mid, int right)
+{
+	int q = left;
+	int x = left;
+	int w = mid+1;
+	while(q<=mid && w<=right)
+	{
+		if(data[q]<data[w])
+			temp[x++] = data[q++];
+		else
+			temp[x++] = data[w++];
+	}
+	while(q<=mid)
+		temp[x++] = data[q++];
+	while(w<=right)
+		temp[x++] = data[w++];
+	for(int i=left; i<=right; i++)
+	{
+		data[i] = temp[i];
+	}
+}
+
+void mergeSort(int data[], int left, int right)
+{
+	if(left<right)
+	{
+		int mid = (left+right)/2;
+		mergeSort(data,left,mid);
+		mergeSort(data,mid+1,right);
+		merge(data,left,mid,right);
+	}
+}
+
+int main()
+{
+	int N;
+	int a[100001];
+	scanf("%d", &N);
+	for(int i=0; i<N; i++)
+	{
+		scanf("%d", &a[i]);
+	}
+	mergeSort(a,0,N-1);
+	for(int i=0; i<N; i++)
+	{
+		if(i==0)
+			printf("%d ",a[i]);
+		else
+		{
+			if(a[i] == a[i-1])
+				continue;
+			else
+				printf("%d ",a[i]);
+		}
+	}
+	printf("\n");
+	return 0;
+}
+
+---------------------------------------------------------------------------------
+훨씬 효율적인 풀이: https://www.acmicpc.net/source/28237361
+문제를 읽으면 숫자의 범위는 숫자 1000까지다.
+음수의 존재 때문에 num 배열을 2배인 2002 정도로 잡는 것이다.
+
+#include <stdio.h>
+
+int main()
+{
+	int n;
+	int num[2002] = { 0 };
+	int tmp;
+
+	scanf("%d", &n);
+	for (int i = 0; i < n; i++)
+	{
+		scanf("%d", &tmp);
+		num[tmp + 1000]++;
+	}
+	int k = 0;
+	for (int i = 0; i < 2002; i++)
+	{
+		if (num[i] > 0)
+        {
+            printf("%d ", i - 1000);
+		    k += num[i];			//k는 단순히 n의 개수만큼 채워지는 순간 프로그램을 끝내기 위해 존재
+        }
+		if (k == n)
+			break;
+	}
+	return 0;
+}
+
+---------------------------------------------------------------------------------------
+더욱 간략화: https://www.acmicpc.net/source/28052346
+
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+#include <stdbool.h>
+int str[2001];
+int main() {
+	int n;
+	int m;
+	scanf("%d", &n);
+	for (int i = 0; i < n; i++) {
+		scanf("%d", &m);
+		str[m + 1000]++;
+
+	}
+	for (int i = 0; i <= 2000; i++) {
+		if (str[i] != 0) {
+			printf("%d ", i-1000);
+		}
+	}
+
+	return 0;
+}

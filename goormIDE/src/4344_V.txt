@@ -1,0 +1,83 @@
+// "평균" 구하기와 "평균을 넘는 점수의 비율" 구하기
+#include <stdio.h>
+
+int main()
+{
+	
+	int testNumber, studentNumber;
+	float sum, score, average, counter, percentage;
+	sum = 0;
+	int classRoom[1000] = {0, };
+	scanf("%d", &testNumber);
+	
+	for(int x=0; x<testNumber; x++)
+	{
+		scanf("%d", &studentNumber);
+		
+		for(int y=0; y<studentNumber; y++)
+		{
+			scanf("%f", &score);
+			sum += score;
+			classRoom[y] = score;
+		}
+		average = sum / studentNumber;
+		for(int z=0; z<studentNumber; z++)
+		{
+			if(average<classRoom[z])
+			{
+				counter++;
+			}
+		}
+		percentage = counter / studentNumber * 100;
+		printf("%.3f%\n", percentage);
+		
+		sum = 0;
+		counter = 0;
+		for(int v=0; v<studentNumber; v++)
+		{
+			classRoom[v] = 0;
+		}
+	}
+	
+	return 0;
+} 
+
+--------------------------------------------------------------------------
+#include <stdio.h>                 ///좀더 짧게 만든 코딩... 일일이 classRoom배열에 0을 집어넣는 과정을 빼보았다.
+								   
+								   ///반복문 안에서 선언을 하면 반복문 안에서만 유효한 선언들이다.
+								   ///반복문 밖에서는 존재하지 않게 된다.
+								   
+								   ///char형의 배열로 문자열을 입력받을 때네는 &을 붙일 필요가 없다
+								   ///배열 이름이 배열 주소 역할을 하기 때문
+								   
+								   ///scanf("%[^\n]s", s1);    // 공백까지 포함하여 문자열 입력받기
+int main()
+{
+	int testNumber, studentNumber;
+	scanf("%d", &testNumber);
+	for(int x=0; x<testNumber; x++)
+	{
+		int classRoom[1000] = {0, };
+		float sum, score, average, counter, percentage;
+		counter = sum = 0;
+		scanf("%d", &studentNumber);
+		for(int y=0; y<studentNumber; y++)
+		{
+			scanf("%f", &score);
+			sum += score;
+			classRoom[y] = score;
+		}
+		average = sum / studentNumber;
+		for(int z=0; z<studentNumber; z++)
+		{
+			if(average<classRoom[z])
+			{
+				counter++;
+			}
+		}
+		percentage = counter / studentNumber * 100;
+		printf("%.3f%%\n", percentage);
+	}
+	return 0;
+} 

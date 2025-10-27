@@ -1,0 +1,11 @@
+#include <stdio.h>
+int main()
+{
+	printf("|\\_/|\n");
+	printf("|q p|   /}\n");
+	printf("( 0 )\"\"\"\\\n");
+	printf("|\"^\"`    |\n");                      //  `는 키보드 숫자 1 옆에 있는 특수문자.
+	printf("||_/=\\\\__|\n");
+	
+	return 0; 
+} 

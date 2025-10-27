@@ -1,0 +1,69 @@
+//블랙잭//세 장의 카드를 고르는 모든 경우를 고려하는 문제
+#include <stdio.h>
+
+int main(void)
+{
+	int N, M;
+	int jack = 0;
+	int num[101] = {0, };			// 100이 아니라 101로 설정해주자.
+	scanf("%d %d", &N, &M);
+	for(int i=0; i<N; i++)
+	{
+		scanf("%d", &num[i]);
+	}
+	for(int a=0; a<=N-3; a++)
+	{
+		for(int b=1; b<=N-2; b++)
+		{
+			if(a>=b)
+				continue;
+			for(int c=1; c<=N-1; c++)
+			{
+				if(b>=c)				//b>c로 해서 틀림. 잘 보자.
+					continue;
+				else
+				{
+					if(num[a]+num[b]+num[c] <=M && jack < num[a]+num[b]+num[c])		// <M 이 아니라 <=M 이 맞다.
+						jack = num[a] + num[b] + num[c];
+				}
+				
+			}
+		}
+	}
+	printf("%d\n", jack);	
+	return 0;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#include <stdio.h>
+#include <math.h>
+
+int main() {
+
+	int card_num, target_num, i, j, k;
+	int result, sum;
+	int card[100];
+
+	scanf("%d%d", &card_num, &target_num);
+	
+	for (i = 0; i < card_num; i++)
+		scanf(" %d", &card[i]);
+
+	//result = card[0] + card[1] + card[2];				// result가 target_num보다 큰 값이 들어 갈 경우 															// result<sum 이 일어날 일이 없음. 즉, 무의미해짐.
+	result = 0;
+
+	/*전수 조사로 근사 값을 찾아야함*/
+	for (i = 0; i < card_num - 2; i++)				//i=0; j=i+1; k=j+1 의 방식.. parent 변수를 참고하는 방식.
+		for(j = i + 1; j <card_num - 1; j++)
+			for (k = j + 1; k < card_num; k++) { 		//k = i + 2로 해서 한 번 틀렸음 i = 0, j = 2, k = 2 라는 반례가 존재함
+				
+				sum = card[i] + card[j] + card[k];
+				
+				/*가장 가까운 값이 아니라, 가장 가까운 값 + 목표 값을 넘지 않아야함*/
+				if (result < sum && sum <= target_num)
+					result = sum;
+			}
+
+	printf("%d\n", result);
+}

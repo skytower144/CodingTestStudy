@@ -1,0 +1,26 @@
+//단어의 개수를 구하는 문제
+#include<stdio.h>
+#include<string.h>
+#include<ctype.h>
+int main()
+{
+	char word[1000001] = "";
+	int counter = 0;
+	int fir_end = 0;
+	scanf("%[^\n]s", word);
+	int length = strlen(word);
+	for(int x=0; x<length; x++)
+	{
+		if(isspace(word[x]))
+		{
+			if(x==0)							//x==0인걸 볼때마다 continue시키지 않도록 조심
+				continue;
+			else
+				counter++;
+		}	
+	}
+	if(isspace(word[length-1])) 
+		printf("%d\n", counter);
+	else
+		printf("%d\n", counter + 1);
+}

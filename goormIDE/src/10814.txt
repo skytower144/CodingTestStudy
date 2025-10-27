@@ -1,0 +1,115 @@
+//나이순 정렬// 
+//값이 같은 원소의 전후관계가 바뀌지 않는 정렬 알고리즘을 안정 정렬(stable sort)이라고 합니다.
+
+
+#include <stdio.h>
+#include <stdlib.h>
+typedef struct{
+	int age;
+	char name[101];
+	int rank;
+}id;
+id temp[100001];
+void merge(id* a, int left, int mid, int right)
+{
+	int i = left;
+	int j = mid+1;
+	int t = left;
+	while(i<=mid && j<=right)
+	{
+		if(a[i].age > a[j].age)
+			temp[t++] = a[j++];
+		else if(a[i].age < a[j].age)
+			temp[t++] = a[i++];
+		else
+		{
+			if(a[i].rank > a[j].rank)
+				temp[t++] = a[j++];
+			else
+				temp[t++] = a[i++];
+		}
+	}
+	while(i<=mid)
+	{
+		temp[t++] = a[i++];
+	}
+	while(j<=right)
+	{
+		temp[t++] = a[j++];
+	}
+	for(int x=left; x<=right; x++)
+	{
+		a[x] = temp[x];
+	}
+}
+void partition(id *a, int left, int right)
+{
+	int mid;
+	if(left<right)
+	{
+		mid = (left + right)/2;
+		partition(a,left,mid);
+		partition(a,mid+1,right);
+		merge(a,left,mid,right);
+	}
+}
+int main(void)
+{
+	int N;
+	id *a;
+	scanf("%d", &N);
+	a = (id *)malloc(sizeof(id) * N);
+	for(int t=0; t<N; t++)
+	{
+		scanf("%d %s", &a[t].age, a[t].name);
+		a[t].rank = t;
+	}
+	partition(a,0,N-1);
+	for(int t=0; t<N; t++)
+	{
+		printf("%d %s\n", a[t].age, a[t].name);
+	}
+	
+	free(a);
+	return 0;
+}
+-------------------------------------------------------------------------------
+퀵정렬))
+
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct _User{
+    int age;
+    char name[101];				//딱히 카운터 변수를 추가하지도 않고 구현한게 신기하다.
+} User;							
+
+int compare(const void* x, const void* y){
+    User* ux = (User*)x;
+    User* uy = (User*)y;
+    
+    if(ux->age > uy->age){
+        return 1;			//uy가 작은경우이므로 uy가 먼저오는게 return 1의 결과이다.
+    }
+    return -1;				//퀵정렬과 퀵함수가 돌아가는 원리는 살짝 다른가 싶다..?
+}							//ux가 먼저오도록..? 그냥 냅두는것과 같은 결과..?라서?
+							//너무 어렵다.
+int main(){
+    int n;
+    scanf("%d", &n);
+    
+    User* users = (User*)malloc(sizeof(User)*n);
+    for(int i = 0; i < n; i ++){
+        scanf("%d %s", &(users[i].age), users[i].name);
+    }
+    
+    qsort(users, n, sizeof(User), compare);
+    
+    for(int i = 0; i < n; i ++){
+        printf("%d %s\n", users[i].age, users[i].name);
+    }
+    
+    free(users);
+    
+    return 0;
+}

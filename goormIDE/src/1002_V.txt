@@ -1,0 +1,90 @@
+//두 원의 교점// 두 원의 관계
+
+#include <stdio.h>
+#include <math.h>
+int main(void)
+{
+	int testC; int temp;
+	float d;
+	scanf("%d", &testC);
+	for(int t=0; t<testC; t++)
+	{
+		int x1, y1, r1, x2, y2, r2;
+	
+		scanf("%d %d %d %d %d %d",&x1,&y1,&r1,&x2,&y2,&r2);
+		d = sqrt(pow((x1-x2),2) + pow((y1-y2),2));
+		if (x1 == x2 && y1 == y2)
+		{
+			if(r1 == r2)
+				printf("-1\n");
+			else
+				printf("0\n");
+		}
+		else if(d > r1+r2)
+			printf("0\n");
+		else if(d == r1+r2)
+			printf("1\n");
+		else if(d < r1+r2)			//3가지로 또 나뉜다.
+		{
+			if(r2 > r1)				//두 원 중 큰 원을 설정
+			{
+				temp = r1;
+				r1 = r2;
+				r2 = temp; 
+			}
+			if(d+r2 < r1)
+				printf("0\n");
+			else if(d+r2 == r1)
+				printf("1\n");
+			else if(d+r2 > r1)
+				printf("2\n");
+		}
+	}
+	return 0;
+}
+
+-------------------------------------------------------------------------------------------------
+다른 풀이)
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+int getPoint(int x1, int y1, int r1,
+        int x2, int y2, int r2);
+
+int main() {
+	int T;
+	scanf("%d", &T);
+
+    int* pResult = malloc(sizeof(int) * T);
+    int x1, y1, r1, x2, y2, r2;
+    for (int i = 0; i < T; i++) {
+        scanf("%d %d %d %d %d %d", &x1, &y1, &r1, &x2, &y2, &r2);
+        pResult[i] = getPoint(x1, y1, r1, x2, y2, r2);
+    }
+
+    for (int i = 0; i < T; i++)
+        printf("%d\n", pResult[i]);
+
+    free(pResult);
+	return 0;
+}
+
+int getPoint(int x1, int y1, int r1,
+        int x2, int y2, int r2) {
+    double L = sqrt( pow(x2 - x1, 2) + pow(y2 - y1, 2) );
+    double dr1 = (double)r1;
+    double dr2 = (double)r2;
+
+    if (x1 == x2 && y1 == y2 && r1 == r2) // 완전한 일치
+        return -1;  // 무한대
+    else if (dr1 + dr2 < L || abs(dr1 - dr2) > L) // 외부 또는 내부에 접점없는 원
+        return 0;   // 접점없음
+    else if (dr1 + dr2 == L || abs(dr1 - dr2) == L) // 외접 또는 내접
+        return 1;   // 단일 접점
+    else if (dr1 + dr2 > L) // 교집합 형태
+        return 2;   // 접접 2
+
+    return -2; // Error
+}

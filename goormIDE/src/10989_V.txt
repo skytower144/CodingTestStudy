@@ -1,0 +1,29 @@
+//카운팅 정렬// 
+//수의 범위가 작다면 카운팅 정렬을 사용하여 더욱 빠르게 정렬할 수 있습니다.
+//'수의 개수'가 아니라 수의 '범위'가 작을 경우이다.
+
+#include <stdio.h>
+int main(void)
+{
+	int N; int input; int max=0;
+	int temp[10001] = {0, };
+	scanf("%d", &N);
+	for(int t=0; t<N; t++)
+	{
+		scanf("%d", &input);
+		if(max<input)
+			max = input;
+		temp[input]++;
+	}
+	for(int i=1; i<=max; i++)
+	{
+		if(temp[i]!=0)
+		{
+			for(int x=0; x<temp[i]; x++)
+			{
+				printf("%d\n", i);
+			}
+		}
+	}
+	return 0;
+}
