@@ -1,0 +1,17 @@
+// 3! = 3*4 / 2
+// n! = n * (n+1) / 2
+#include <stdio.h>
+
+int main() {
+    
+    int number, x;
+	int sum = 0;
+	scanf("%d", &number);
+	
+	for(x = 1; x<=number; x++)
+	{
+		sum = sum + x;
+	}
+	
+	printf("%d", sum);
+}

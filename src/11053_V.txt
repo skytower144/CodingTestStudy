@@ -1,0 +1,87 @@
+// LIS(Longest Increasing Subsequence)를 구하는 문제 // 동적 계획법
+
+#include <stdio.h>
+int num[1001] = {0,};
+int dp[1001] = {0,};
+
+int main()
+{
+	int max;
+	int N;
+	scanf("%d", &N);
+	
+	for(int i=0; i<N; i++)
+	{
+		scanf("%d", &num[i]);
+	}
+	dp[N-1] = 1;
+	for(int i=N-2; i>=0; i--)
+	{
+		dp[i] = 1;
+		for(int k=i+1; k <= N-1; k++)
+		{
+			if(num[i] < num[k] && dp[i] <= dp[k])
+				dp[i] = dp[k]+1;
+		}
+	}
+
+	max = dp[0];
+	for(int i=1; i<N; i++)
+	{
+		if(max<dp[i])
+			max = dp[i];
+	}
+	printf("%d\n", max);
+
+	return 0;
+}
+
+---------------------------------------------------------------------------------------
+내가 생각한 방식..
+
+ex)
+N = 5
+1 5 3 7 2
+
+[	1[	5[	3[	7[	2]]]]]
+                  num[4] 부터 따져보았음.
+num[4] = 2 혼자이므로 dp[4] = 1이다.
+num[3]은 num[3]과 num[4]의 대소관계를 따져서 dp[3]의 값이 정해진다.
+num[2]는 num[3],num[4]과의 각각 대소관계를 따진 후, dp[2]의 값이 결과적으로 커지는 쪽을 선택하도록 만든다.
+만든다고함은 dp[2]의 default값은 1이므로, dp[2] = dp[?]+1 이 될 것이다.
+
+
+-------------------------------------------------------------------------------------------
+풀이 2)
+
+#include <stdio.h>
+
+int main()
+{
+	int num[1001] = {0,};
+	int dp[1001] = {0, };
+	int N;
+	scanf("%d", &N);
+	for(int i=0; i<N; i++)
+	{
+		scanf("%d", &num[i]);
+	}
+	for(int i=1; i<N; i++)
+	{
+		for(int k=0; k<=i-1; k++)
+		{
+			if(num[k]<num[i] && dp[k]>=dp[i])
+			{
+				dp[i] = dp[k] + 1;
+			}
+		}
+	}
+	int max = dp[0];
+	for(int i=1; i<N; i++)
+	{
+		if(max<dp[i])
+			max = dp[i];
+	}
+	printf("%d\n", max+1);
+	return 0;
+}

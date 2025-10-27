@@ -1,0 +1,79 @@
+//셀프 넘버
+int d(int n)
+{
+	int N = n;
+	int sum = 0;
+	while(n>0)
+	{
+		sum += (n % 10);
+		n /= 10;
+	}
+	return (N + sum);
+}
+
+int main()
+{
+	int selfNumber[10000];
+	int not_selfNumber[10000];
+	int ct = 0;
+	for(int x=0; x<10000; x++)
+	{
+		not_selfNumber[x] = d(x+1);
+	}
+	
+	for(int y=0; y<10000; y++)
+	{
+		
+		for(int z=0; z<10000; z++)
+		{
+			if( (y+1) == not_selfNumber[z])
+			{
+				goto ONE;
+			}
+		}
+		selfNumber[ct] = y+1;
+		ct++;
+		
+		ONE:
+			continue;
+	}
+	
+	for(int a=0; a<ct; a++)
+	{
+		printf("%d\n", selfNumber[a]);
+	}
+}
+
+---------------------------------------------------------------------------------------------
+#include<stdio.h>
+
+int d(int n)
+{
+	int m=n;
+	while(n>0)
+	{
+		m=m+n%10;
+		n=n/10;
+	}
+	return m;
+}
+
+int main()
+{
+	int arr[10001]={};					//배열을 꼭 초기화 시키는 걸 잊지 말자. 0으로 채울 때도 포함이다.
+	int i;
+	for(i=1;i<10001;i++)				//d(i)는 셀프넘버가 아닌 숫자들을 가리킨다.
+	{
+		if(d(i)<=10000)					//d(i)가 10000이 넘어가면 포함시킬 필요가 없다.
+			arr[d(i)]=1;				//d(i)에서 1부터 10000까지 i를 순차적으로 증가시키면서
+	}							    //셀프넘버가 아닌 숫자들이 매번 나오므로 그 숫자들을 바로 인덱스로 대입시킨다.	
+									//그리고 해당 인덱스의 arr배열에는 1로 채워넣는다. 그 외에는 이미 0이다.
+	for(i=1;i<10001;i++)				//arr배열의 인덱스를 1부터 10000까지 검토함.
+	{
+		if(arr[i]==0)					//0으로 채워져 있을 시 셀프넘버라는 뜻.
+		{
+			printf("%d\n", i);
+		}
+	}
+	return 0;
+}

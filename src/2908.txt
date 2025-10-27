@@ -1,0 +1,57 @@
+//숫자를 뒤집어서 비교하는 문제
+#include<stdio.h>
+#include<stdlib.h>
+int main()
+{
+	char a[4]; char b[4];
+	char bin;
+	int n1, n2;
+	scanf("%s %s", a, b);
+	bin = a[2];
+	a[2] = a[0];
+	a[0] = bin;
+	
+	bin = b[2];
+	b[2] = b[0];
+	b[0] = bin;
+	
+	n1 = atoi(a);
+	n2 = atoi(b);
+	
+	if (n1>n2)
+		printf("%d\n", n1);
+	else
+		printf("%d\n", n2);
+}
+-------------------------------------------------------------------------
+두 수를 뒷자리부터 거꾸로 비교하는 방식
+
+#include <stdio.h>
+int main()
+{
+	char a[4], b[4];
+	int i, j;
+	
+	scanf("%s %s", a, b);
+	
+	for(i=2; i>=0; i--)
+	{
+		if(a[i] < b[i])
+		{
+			for(j=2; j>=0; j--)
+			{
+				printf("%c", b[j]);
+			}
+			break;
+		}
+		else if(b[i] < a[i])
+		{
+			for(j=2; j>=0; j--)
+			{
+				printf("%c", a[j]);
+			}
+			break;
+		}
+	}
+	return 0;
+}

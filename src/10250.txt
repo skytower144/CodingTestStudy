@@ -1,0 +1,52 @@
+//ACM 호텔, 호텔 방 번호의 규칙을 찾아 출력하는 문제
+#include<stdio.h>
+
+int main(void)
+{	
+	int test;
+	scanf("%d", &test);
+	for(int a=0; a<test; a++)
+	{
+		int H, W, Z, h,w,z;
+		int counter = 1;
+		scanf("%d %d %d", &H, &W, &Z);
+		for(w=1; w<=W; w++)
+		{
+			for(h=1; h<=H; h++)
+			{
+				if(counter == Z)
+					goto END;
+				counter++;
+			}
+		}
+		END:
+			printf("%d%02d\n",h,w);
+	}
+	return 0;
+}
+-----------------------------------------------------------------------------------------------
+H: 총 층수		W: 한 층당 객실 수
+
+구하고자 하는 방의:
+층수 = 손님 % H
+호수 = (손님 / H)+ 1 
+
+예외) 손님 수가 H의 배수일 경우 : H 층 손님/H 호
+
+#include<stdio.h>
+int main(){
+	int T, i;
+	int H, W, N;
+	scanf("%d", &T);
+	
+	for(i=0; i<T; i++){
+		scanf("%d %d %d", &H, &W, &N);
+		
+		if(N%H == 0)
+			printf("%d\n", H*100+(N/H));
+		else
+			printf("%d\n", (N%H)*100+(N/H+1));
+	}
+		return 0;
+}
+

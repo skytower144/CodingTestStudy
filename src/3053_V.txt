@@ -1,0 +1,44 @@
+//유클리드 기하학과 택시 기하학에 대한 문제
+
+
+#include <stdio.h>
+#include <math.h>
+#define PI 3.14159265358979
+int main(void)
+{
+	int R; 
+	double Euclid, Taxi;				//double형으로 맞춰줌으로써 정밀도를 높이는 것이 핵심이었다.
+	scanf("%d", &R);					//float형으로 변수 선언 시 오차범위 때문에 틀린다.
+	Euclid = PI*R*R;
+	Taxi = 2.0*R*R;
+	printf("%f\n%f", Euclid, Taxi);
+	
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+/*
+#include <stdio.h>
+#define PI 3.14159265358979
+int main(void)
+{
+	int R;
+	scanf("%d", &R);
+	printf("%f\n", PI*R*R);				//double 출력형을 %f으로 해도 상관이 없다고 한다.
+	printf("%f\n", 2.0*R*R);			//그러므로 PI*R*R 자체를 double형으로 인식하는 듯하다.
+	return 0;
+}
+*/
+///////////////////////////////////////////////////////////////////////////
+//참고//
+
+#include <math.h>
+#define _USE_MATH_DEFINES
+
+M_PI 상수 이용가능
+
+
+
+
+
+

@@ -1,0 +1,18 @@
+// 곱셉
+#include <stdio.h>
+
+int main()
+{
+	int A, B, b1, b2, b3;
+	scanf("%d %d", &A, &B);
+	
+	b3 = B / 100;
+	b2 = (B % 100) / 10;
+	b1 = (B % 100) % 10;
+	printf("%d\n", A*b1);
+	printf("%d\n", A*b2);
+	printf("%d\n", A*b3);
+	printf("%d", A*B);
+	
+	return 0;
+}

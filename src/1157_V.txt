@@ -1,0 +1,42 @@
+//<주어진 단어에서 가장 많이 사용된 알파벳을 출력하는 문제>
+
+strlen(arr)을 for문의 조건 부분에 써놓으셨는데,
+
+이렇게 하면 for가 한 바퀴 돌 때마다(조건이 체크될때마다) strlen이 실행되어서 수행 시간에 문자열의 길이가 곱해지게 됩니다.
+
+int len = strlen(arr);
+
+for (int i = 0; i < len; i++) 이런 식으로 변수에 넣어서 사용하세요.
+
+/////////////////////////////////////////////////////////////////////////
+#include<stdio.h>
+#include<string.h>
+#include<ctype.h>
+
+int main()
+{
+	int max, counter;
+	max = 0; counter = -1;
+	char word[1000001];
+	int alpha[26];						// char alpha[26]으로 설정해서 한참 헤맸음. 
+	
+	scanf("%s", word);
+	long len = strlen(word);			//strlen을 따로 분리시키는게 중요. 시간 초과 해결.
+	
+	for(long t=0; t<len; t++)				//for(int i=0; word[i]; i++) 로 해도 됌.
+	{										// word[i] 가 '\0' 도달할 때까지 반복.
+		alpha[(toupper(word[t]) - 'A')]++;
+	}
+	
+	for(int i=1; i<26; i++)
+	{	
+		if(alpha[max] == alpha[i])
+			counter = max;
+		if(alpha[max] < alpha[i])
+			max = i;
+	}
+	if (counter == max)
+		printf("?\n");
+	else
+		printf("%c\n", 'A' + max);
+}

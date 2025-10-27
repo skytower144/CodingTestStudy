@@ -1,0 +1,123 @@
+//좌표 정렬//
+
+_합병 정렬로 풀어본 방식:
+
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct{
+	int x;
+	int y;
+}point;
+point temp[100001];
+void merge(point *a,int left, int mid, int right)
+{
+	int j = mid + 1;
+	int k = left;
+	int t = left;
+	while(k<=mid && j<=right)
+	{
+		if(a[k].x>a[j].x)
+			temp[t++] = a[j++];
+		else if(a[k].x<a[j].x)
+			temp[t++] = a[k++];
+		else
+		{
+			if(a[k].y >= a[j].y)
+				temp[t++] = a[j++];
+			else
+				temp[t++] = a[k++];
+		}
+	}
+	if(k<=mid)
+	{
+		while(k<=mid)
+			temp[t++] = a[k++];
+	}
+	else if(j<=right)
+	{
+		while(j<=right)
+			temp[t++] = a[j++];
+	}
+	for(int k=left; k<=right; k++)		//k를 0부터 t까지 했었다.. 시간초과가 나는 이유.
+	{
+		a[k] = temp[k];
+	}
+}
+
+void partition(point *a,int left, int right)
+{
+	int mid;
+	if(left<right)
+	{
+		mid = (left+right)/2;
+		partition(a, left, mid);
+		partition(a, mid+1, right);
+		merge(a, left, mid, right);
+	}
+}
+int main(void)
+{
+	int N;
+	scanf("%d", &N);
+	point *a = (point *)malloc(sizeof(point) * N);
+	for(int i=0; i<N; i++)
+	{
+		scanf("%d %d", &a[i].x, &a[i].y);
+	}
+	partition(a,0,N-1);
+	for(int i=0; i<N; i++)
+	{
+		printf("%d %d\n", a[i].x, a[i].y);
+	}
+	free(a);
+	return 0;
+}
+
+----------------------------------------------------------------------------------------------
+//https://www.acmicpc.net/source/26247120
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct  COORDINATE{
+	int x;
+	int y;
+}c;
+
+int compare(const void *a, const void *b) {
+	c *pa = (c*)a;
+	c *pb = (c*)b;
+	if (pa->x > pb->x) {
+		return 1;
+	}
+	else if (pa->x < pb->x) {
+		return -1;
+	}
+	else {
+		if (pa->y > pb->y) {
+			return 1;
+		}
+		if (pa->y < pb->y) {
+			return -1;
+		}
+		else return 0;
+	}
+}
+
+int main(void) {
+	int N;
+	c *p;
+	scanf("%d", &N);
+	p = (c *)malloc(sizeof(c)*N);
+	for (int i = 0; i < N; i++) {
+		scanf("%d %d", &p[i].x, &p[i].y);
+	}
+	qsort(p, N, sizeof(c), compare);
+	for (int i = 0; i < N; i++) {
+		printf("%d %d\n", p[i].x, p[i].y);
+	}
+	free(p);
+	return 0;
+}

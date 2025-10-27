@@ -1,0 +1,15 @@
+// A/B
+
+#include <stdio.h>
+
+int main()
+{
+	double a, b;
+	scanf("%lf %lf", &a, &b);
+	printf("%.9lf", a/b);
+	
+	return 0;
+}
+
+// float의 상대오차 정도는 10^-6 쯤
+   double의 상대오차 정도는 10^-15 쯤

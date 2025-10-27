@@ -1,0 +1,31 @@
+//1로 만들기 // 동적 계획법 // BOTTOM UP
+https://m.blog.naver.com/PostView.nhn?blogId=vjhh0712v&logNo=221470836267&categoryNo=18&proxyReferer=https:%2F%2Fwww.google.com%2F
+
+#include <stdio.h>
+int memo[1000001] = {0,};
+
+int compare(int a, int b)
+{
+	if(a<b)
+		return a;
+	else
+		return b;
+}
+
+int main()
+{
+	int N;
+	scanf("%d", &N);
+	
+	for(int i=2; i<=N; i++)
+	{
+		memo[i] = memo[i-1]+1;			//무 조건으로 실행되는 -1 조건을 맨앞에 세운다.
+		if(i%3==0)						// /3이나 /2 조건은 실행되지 않을 가능성도 있기 때문에 선두에 못세움.
+			memo[i] = compare(memo[i], memo[i/3] + 1);			//-1 조건보다 더 최소값이 나올 경우를 추출
+		if(i%2==0)
+			memo[i] = compare(memo[i], memo[i/2] + 1);
+	}
+	printf("%d\n", memo[N]);
+	
+	return 0;
+}

@@ -1,0 +1,108 @@
+//덩치//
+
+풀이 1)
+
+#include <stdio.h>
+
+int main(void)
+{
+	int weight[200] = {0, };			//testcase가 2부터 50이므로 200개로 설정할 필요가 없다.
+	int height[200] = {0, };
+	int rank[200] = {0, };
+	int N;
+	
+	scanf("%d", &N);
+	for(int n=0; n<N; n++)
+		scanf("%d %d", &weight[n], &height[n]);
+	for(int i=0; i<N; i++)
+	{
+		for(int k=0; k<N; k++)
+		{
+			if(k==i)
+				continue;
+			else if (weight[k]>weight[i] && height[k]>height[i])
+				rank[i]++;
+		}
+		printf("%d ", rank[i]+1);
+	}
+	
+	return 0;
+}
+
+--------------------------------------------------------------------------------------------------
+풀이 2)
+
+#include <stdio.h>
+
+int main() {
+	int N = 0, k = 0;
+	int x[50] = { 0, };
+	int y[50] = { 0, };
+	scanf("%d", &N);
+	for (int i = 0; i < N; i++) {
+		scanf("%d %d", &x[i], &y[i]);
+	}
+	for (int i = 0; i < N; i++) {
+		k = 0;
+		for (int j = 0; j < N; j++) {
+			if (x[i] < x[j] && y[i] < y[j]) {
+				k++;
+			}
+		}
+		printf("%d ", k + 1);
+	}
+	return 0;
+}
+
+------------------------------------------------------------------------------------------------------
+//struct 활용법 (풀이3)
+
+#include <stdio.h>
+
+typedef struct _people {
+	int x;
+	int y;
+	int rank;
+} people;						//struct _people 을 간단히 people로 일컫겠다.
+int main() {
+	people a[50];
+	int n;
+	scanf("%d", &n);
+	for (int i = 0; i < n; i++) {
+		scanf("%d %d", &a[i].x, &a[i].y);
+		a[i].rank = 0;
+	}
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < n; j++) {
+			if (i == j) continue;
+			if (a[i].x < a[j].x && a[i].y < a[j].y) {
+				a[i].rank++;
+			}
+		}
+	}
+	for (int i = 0; i < n; i++) {
+		printf("%d ", a[i].rank+1);
+	}
+}
+
+
+-----------------------------------------------------------------------------------------------------------
+cf) struct 예시..?
+
+#include <stdio.h>
+
+typedef struct _classmate
+{
+	char name[100];
+	int classNo;
+	int grade;
+} classmate;
+
+int main(void)
+{
+	classmate A;
+	scanf("%s\n%d\n%d", A.name, &A.classNo, &A.grade);							// &A.name이 아니다.
+	printf("name: %s\nclassNo: %d\ngrade: %d\n", A.name, A.classNo, A.grade);
+	
+	return 0;
+}

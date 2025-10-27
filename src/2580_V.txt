@@ -1,0 +1,115 @@
+//2580번 스도쿠//
+
+#include <stdio.h>
+#include <stdlib.h>		//exit(0)을 쓰기위해 필요.
+int input[10][10];
+void sudoku(int ct);
+int check(int i, int z, int k);
+int main(void)
+{
+	for(int y=0; y<9; y++)
+	{
+		for(int x=0; x<9; x++)
+		{
+			scanf("%d", &input[y][x]);
+		}
+	}
+	sudoku(0);
+	
+	return 0;
+}
+
+int block(int i, int z, int k)
+{
+	int X; int Y;
+	for(int r=3; r>=1; r--)
+	{
+		if(z <= 3*r - 1)
+			X = r;
+		if(k <= 3*r - 1)
+			Y = r;
+	}
+	for(int y = 3*(Y-1); y<=3*Y-1; y++)
+	{
+		for(int x = 3*(X-1); x<=3*X-1; x++)
+		{
+			if(input[y][x] == i)
+			{
+				return 0;
+			}
+		}
+	}
+	return 1;
+}
+int check(int i, int z, int k) 
+{
+	for(int x=0; x<9; x++)
+	{
+		if(input[k][x] == i)
+			return 0;
+	}
+	for(int y=0; y<9; y++)
+	{
+		if(input[y][z] == i)
+			return 0;
+	}
+	return block(i,z,k);
+}
+
+void sudoku(int ct)
+{
+	if(ct == 81)
+	{
+		for(int y=0; y<9; y++)
+		{
+			for(int x=0; x<9; x++)
+			{
+				printf("%d ", input[y][x]);
+			}
+			printf("\n");
+		}
+		exit(0);
+	}
+	int y=ct/9;				//이 문제를 푸는데 핵심이었다.
+	int x=ct%9;
+	
+	if(input[y][x] == 0)
+	{
+		for(int i=1; i<=9; i++)
+		{
+			if(check(i,x,y))
+			{
+				input[y][x] = i;
+				sudoku(ct+1);
+				input[y][x] = 0;		//미로를 가다가 막히면 숫자들을 다 철회해야하기 때문이다.
+			}
+		}
+	}
+	else
+		sudoku(ct+1);				//해당 칸에 숫자가 있으면 다음 칸으로 넘어간다.
+}
+
+---------------------------------------------------------------------------------------
+https://jaimemin.tistory.com/664
+
+int convertSquare(int y, int x)
+{
+    return (y / 3) * 3 + x / 3;
+}
+
+0 1 2          0+3*0   1+3*0   2+3*0          x+y   x+y   x+y        0     1     2
+3 4 5    ==    0+3*1   1+3*1   2+3*1    ==    x+y   x+y   x+y   ==   0+3   1+3   2+3
+6 7 8          0+3*2   1+3*2   2+3*2          x+y   x+y   x+y        0+3+3 1+3+3 2+3+3
+
+0,0|0,1|0,2| 0,3|0,4|0,5 |0,6|0,7|0,8|
+1,0|1,1|1,2| 1,3|1,4|1,5 |1,6|1,7|1,8|
+2,0|2,1|2,2| 2,3|2,4|2,5 |2,6|2,7|2,8|
+
+3,0|3,1|3,2| 3,3|3,4|3,5 |3,6|3,7|3,8|
+4,0|4,1|4,2| 4,3|4,4|4,5 |4,6|4,7|4,8|
+5,0|5,1|5,2| 5,3|5,4|5,5 |5,6|5,7|5,8|
+
+6,0|6,1|6,2| 6,3|6,4|6,5 |6,6|6,7|6,8|
+7,0|7,1|7,2| 7,3|7,4|7,5 |7,6|7,7|7,8|
+8,0|8,1|8,2| 8,3|8,4|8,5 |8,6|8,7|8,8|
+

@@ -1,0 +1,265 @@
+//연산자 끼워넣기//백트래킹//
+
+#include <stdio.h>
+int N, sum, MAX, MIN;
+int n[11] = {0, };
+int flag[11] = {0, };
+int op[11] = {0, };
+void func(int f, int a)
+{
+	switch(f){
+		case 0:
+			sum += n[a+1];
+			break;
+		case 1:
+			sum -= n[a+1];
+			break;
+		case 2:
+			sum *= n[a+1];
+			break;
+		case 3:
+			if(sum<0)
+			{
+				sum = sum * -1;
+				sum /= n[a+1];
+				sum = sum * -1;
+			}
+			else
+				sum /= n[a+1];
+			break;
+		default:
+			break;
+	}
+}
+void insert(int a)
+{
+	if(a==N-1)
+	{
+		if(sum>MAX)
+			MAX = sum;
+		if(sum<MIN)
+			MIN = sum;
+		return;
+	}
+	for(int i=0; i<N-1; i++)
+	{
+		int temp;
+		if(flag[i] == 0)
+		{
+			flag[i] = 1;
+			temp = sum;			//이전 sum값을 기억하기 위해.
+			func(op[i],a);
+			insert(a+1);
+			sum = temp;
+			flag[i] = 0;
+		}
+	}
+}
+
+int main(void)
+{
+	int o = 0;
+	scanf("%d", &N);
+	for(int i=0; i<N; i++)
+	{
+		scanf("%d", &n[i]);
+	}
+	sum = n[0];
+	MAX = -1000000000;		//이 부분이 중요했음..?
+	MIN = 1000000000;
+	for(int i=0; i<4; i++)
+	{
+		int opNum;
+		scanf("%d", &opNum);
+		for(int k=0; k<opNum; k++)
+		{
+			op[o++] = i;
+		}
+	}
+	insert(0);
+	printf("%d\n%d\n", MAX, MIN);
+	return 0;
+}
+
+-----------------------------------------------------------------------------------------------
+https://www.acmicpc.net/source/27106939
+//훨씬 간단한 풀이:
+
+#include <stdio.h>
+
+int N;
+int num[20];
+int arr[4];
+int max, min;
+
+void cal(int n, int temp) {
+
+	if (n == N) {
+
+		if (temp > max)
+			max = temp;
+		if (temp < min)
+			min = temp;
+		return;
+
+	}
+
+	for (int i = 0; i < 4; i++) {				//i=0 일때는: +부터 시작할때
+												//i=1 : -부터 시작할 때.. etc
+		if (arr[i] > 0) {
+
+			arr[i]--;
+
+			if (i == 0) {
+
+				cal(n + 1, temp + num[n]);
+
+			}
+
+			else if (i == 1) {
+
+				cal(n + 1, temp - num[n]);
+
+			}
+
+			else if (i == 2) {
+
+				cal(n + 1, temp * num[n]);
+
+			}
+
+			else if (i == 3) {
+
+				cal(n + 1, temp / num[n]);
+
+			}
+
+			arr[i]++;
+
+		}
+
+	}
+
+}
+
+void solution() {
+
+	max = -1000000000;
+	min = 1000000000;
+
+	cal(1, num[0]);
+
+}
+
+int main() {
+
+	scanf("%d", &N);
+
+	for (int i = 0; i < N; i++) {
+
+		scanf("%d", &num[i]);
+
+	}
+
+	for (int i = 0; i < 4; i++) {
+
+		scanf("%d", &arr[i]);
+
+	}
+
+	solution();
+
+	printf("%d\n", max);
+	printf("%d\n", min);
+
+}
+---------------------------------------------------------------------------------------------
+출처: https://jaimemin.tistory.com/635 [꾸준함]
+
+#include <iostream>
+
+#include <algorithm>
+
+using namespace std;
+
+ 
+
+const int MAX = 1000000000 + 1;
+
+ 
+
+int N;
+
+int number[12], Operator[4];
+
+int maxResult = -MAX, minResult = MAX;
+
+ 
+
+void DFS(int plus, int minus, int multiply, int divide, int cnt, int sum)
+
+{
+
+        //연산자를 모두 사용하였을 경우
+
+        if (cnt == N)
+
+        {
+
+                 maxResult = max(maxResult, sum);
+
+                 minResult = min(minResult, sum);
+
+        }
+
+       
+
+        //모든 경우를 고려
+
+        if (plus > 0)
+
+                 DFS(plus - 1, minus, multiply, divide, cnt + 1, sum + number[cnt]);
+
+        if (minus > 0)
+
+                 DFS(plus, minus - 1, multiply, divide, cnt + 1, sum - number[cnt]);
+
+        if (multiply > 0)
+
+                 DFS(plus, minus, multiply - 1, divide, cnt + 1, sum * number[cnt]);
+
+        if (divide > 0)
+
+                 DFS(plus, minus, multiply, divide - 1, cnt + 1, sum / number[cnt]);
+
+}
+
+ 
+
+int main(void)
+
+{
+
+        cin >> N;
+
+        for (int i = 0; i < N; i++)
+
+                 cin >> number[i];
+
+        for (int i = 0; i < 4; i++)
+
+                 cin >> Operator[i];
+
+ 
+
+        DFS(Operator[0], Operator[1], Operator[2], Operator[3], 1, number[0]);
+
+ 
+
+        cout << maxResult << endl;
+
+        cout << minResult << endl;
+
+        return 0;
+
+}

@@ -1,0 +1,26 @@
+//달팽이는 올라가고 싶다
+
+#include<stdio.h>
+
+int main(void)
+{	
+	int A,B,V, times;
+	scanf("%d %d %d", &A, &B, &V);
+	int dif = A-B;
+	int goal = V-A;
+	if(A>=V)
+	{
+		printf("1\n");
+		return 0;
+	}
+	times = goal / dif;
+	if(goal % dif == 0)
+		printf("%d\n", times + 1);
+	else	
+		printf("%d\n", times + 2);
+	return 0;
+}
+
+
+//https://peanut2016.tistory.com/39
+//개어려웠다. 겨우 이해..를 했는지도 싶음. 대략 어떤 느낌인지 정도 알겠음. 머리 아픔.

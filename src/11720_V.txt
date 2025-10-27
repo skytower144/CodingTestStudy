@@ -1,0 +1,47 @@
+//정수를 문자열로 입력받는 문제. 
+#include <stdio.h>
+
+int main()
+{
+	int input;
+	int sum = 0;
+	char numbers[100];
+	
+	scanf("%d", &input);
+	
+	scanf("%s", numbers);
+	for(int x=0; x<input; x++)
+		sum += numbers[x] - '0';
+	printf("%d\n", sum);
+}
+
+---------------------------------------------------------------------------------------
+
+#include <stdio.h>
+
+int main(void) {
+	int n;
+	int number[100]; //수를 입력받음. 공백없이 수를 입력받아야함. 
+	int result = 0; // 입력으로 주어진 숫자 N개의 합을 저장하는 변수.
+
+	scanf("%d", &n); //입력받을 수의 개수 입력 받음.
+
+	// 공백없이 수 입력받기 %1d 서식제어문자를 사용하면 공백없이 1글자씩 받을 수 있다.
+	// scanf("%[^\n]s", s1);    // 공백까지 포함하여 문자열 입력받기
+	
+	for (int i = 0; i < n; i++) {
+		scanf("%1d", &number[i]);
+		result += number[i];
+	}
+
+	printf("%d\n", result);
+
+	return 0;
+}
+--------------------------------------------------------------------------------------
+//배열 설정 방법 참고!
+	scanf("%d", &N);
+
+	char* s1 = malloc(sizeof(char) * N);
+
+	scanf("%s", s1);

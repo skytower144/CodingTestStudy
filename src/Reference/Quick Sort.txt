@@ -1,0 +1,87 @@
+< 퀵 정렬 >
+cf) 최악의 경우 시간 복잡도가 n^2까지 간다.
+https://coderkoo.tistory.com/7
+i와 j의 활용..?
+
+내가 쓴 코드_:
+
+#include <stdio.h>
+
+void swap(int *a, int *b)
+{
+	int temp;
+	temp = *a;
+	*a = *b;
+	*b = temp;
+}
+
+void quick(int *a, int left, int right)
+{
+	int i = left+1;
+	int j = left;
+	int pivot = a[left];
+	if(left<right)
+	{
+		for( ; i<=right; i++)
+		{
+			if(pivot>a[i])
+			{
+				j++;
+				swap(&a[i],&a[j]);
+			}
+		}
+		swap(&a[left], &a[j]);
+		quick(a,left,j-1);
+		quick(a,j+1,right);
+	}
+}
+int main(void)
+{
+	int N;
+	int num[1000001] = {0, };
+	scanf("%d", &N);
+	for(int t=0; t<N; t++)
+	{
+		scanf("%d", &num[t]);
+	}
+	quick(num,0,N-1);
+	for(int t=0; t<N; t++)
+	{
+		printf("%d\n", num[t]);
+	}
+	return 0;
+}
+
+//////////////////////////////////////////////////////////////////////////////
+언어에 내장된 퀵 함수 // qsort(정렬할메모리주소, 요소개수, 요소크기, 비교함수); //
+
+#include <stdio.h>
+#include <stdlib.h>		//+추가.
+
+int arr[1000000];
+
+int compare(const void* a, const void* b)				//비교 함수를 꼭 포함해야한다고 한다..
+{														//int num1 = *(int *)a;
+														//int num2 = *(int *)b;
+	if ( *(int *)a < *(int *)b) return -1;				/오름차순 기준
+	if ( *(int *)a == *(int *)b) return 0;
+	if ( *(int *)a > *(int *)b) return 1;
+}
+
+int main(void)
+{
+	int n;
+	int i,j;
+	scanf("%d", &n);
+	
+	for (i=0; i<n; i++) {
+		scanf("%d", &arr[i]);
+	}
+	
+	qsort(arr, n, sizeof(int), compare);
+	
+	for (i=0; i<n; i++)
+		printf("%d\n", arr[i]);
+
+	return 0;
+}

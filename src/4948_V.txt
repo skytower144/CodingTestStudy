@@ -1,0 +1,106 @@
+//베르트랑 공준// 에라토스테네스의 체를 이용해야 시간초과가 안난다.
+
+#include<stdio.h>
+#include<math.h>
+int main(void)
+{
+	int N; int ct=0;
+
+	START:
+		scanf("%d", &N);
+		while(N !=0)
+		{
+			int num[246913] = {1,1,0, };
+			ct = 0;
+			for(int k=2; k<=2*N; k++)
+			{
+				if(num[k] == 1)
+					continue;							//>=를 할 경우 입력값이 2일 때 루프를 돌지 않고 바로 빠져나오는 														//바람에 num[4] 값 설정을 생략해버림.즉, num[4]==1여야 하는데
+														// num[4] = 0 으로 그대로 남아있게 됌.
+				if(pow(k,2)>2*N)						// >=로 하면 틀림.. // N이 아닌 2*N이다.
+					break;								// 쓸데없는 수까지 판단을 할 필요가 없기 때문.
+					
+				for(int j=k*k; j<=2*N; j = j+k)
+					num[j] = 1;
+			}
+			for(int i=N+1; i<= 2*N; i++)
+			{
+				if(num[i] == 0)
+				{
+					ct++;
+				}
+					
+			}
+			printf("%d\n",ct);
+			goto START;
+		}
+	
+	return 0;
+}
+
+--------------------------------------------------------------------------------------------------------
+
+#include <stdio.h>
+#include <stdlib.h>
+int number = 250000;
+int arr[250000];
+int main()
+{
+    for(int i=2; i<=number; i++) arr[i] = 1;
+
+    for(int i=2; i*i<=number; i++)
+    {
+        if(arr[i] == 0) continue;
+        for(int j=i*i; j<=number; j+=i) arr[j] = 0;
+    }
+
+    while(1)
+    {
+        int cnt=0;
+        int a;
+        scanf("%d",&a);
+        if(a==0) break;
+
+        for(int i=a+1; i<=a*2; i++) if(arr[i] == 1) cnt++;
+        printf("%d\n",cnt);
+    }
+    return 0;
+}
+-----------------------------------------------------------------------------------------------------
+2번째 코드 참고해서 짠 코드:
+
+#include<stdio.h>
+#include<math.h>
+int main(void)
+{
+	int num[250000] = {1,1,0, };
+	
+	for(int i=2; i*i<= 250000; i++)
+	{
+		if(num[i] == 1)
+			continue;
+		for(int j = i*i; j<=250000; j+=i)
+		{
+			num[j] = 1;						//num[i] 가 아니라 num[j]이다. 실수 조심!
+		}
+	}
+	
+	while(1)
+	{
+		int N;
+		int ct = 0;
+		scanf("%d", &N);
+		if(N==0)
+			break;
+		for(int k = N+1; k<=2*N; k++)
+		{
+			if(num[k] == 0)
+			{
+				ct++;
+			}
+		}
+		printf("%d\n", ct);
+	}
+	
+	return 0;
+}

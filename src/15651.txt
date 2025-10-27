@@ -1,0 +1,30 @@
+//N과 M (3)
+
+#include <stdio.h>
+int N,M;
+int arr[10];
+void dfs(int ct)
+{
+	if(ct==M)
+	{
+		for(int x=0; x<M; x++)
+		{
+			printf("%d ", arr[x]);
+		}
+		printf("\n");
+		return;
+	}
+	for(int i=1; i<=N; i++)
+	{
+		arr[ct] = i;
+		dfs(ct+1);
+	}
+}
+
+int main(void)
+{
+	scanf("%d %d", &N, &M);
+	dfs(0);
+	
+	return 0;
+}

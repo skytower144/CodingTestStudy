@@ -1,0 +1,19 @@
+#include<stdio.h>
+
+int main(void)
+{
+    long constant, variable, price, cost, benefit;
+	int n = 1;
+	
+	scanf("%ld %ld %ld", &constant, &variable, &price);
+	
+	if(variable>=price)				//varaibe == price 일 경우도 있다는 것 잊지 말자.. 이런 경우에
+	{								//n을 계산할 때 price - variable 이 0이 되버려서 0으로 나누게 된다.
+		printf("%d\n", -1);
+		return 0;
+	}
+	
+	n = constant / (price - variable);
+	printf("%d\n", n+1);				//1추가 잊지 말기.
+	return 0;
+}

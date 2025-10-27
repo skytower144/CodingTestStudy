@@ -1,0 +1,12 @@
+//입력이 끝날 때까지 A+B를 출력하는 문제.
+#include <stdio.h>
+int main()
+{
+	int a, b;
+	while((scanf("%d %d", &a, &b)) != EOF )
+	{
+		printf("%d\n", a+b);
+	}
+	return 0;
+	
+} 

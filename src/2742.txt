@@ -1,0 +1,31 @@
+#include <stdio.h>
+
+int main()
+{
+	int number;
+	
+	scanf("%d", &number);
+	
+	for(int x=0; x<number; x++)
+	{
+		printf("%d\n", number - x);
+	}
+	
+	return 0;
+}
+
+/*
+#include <stdio.h>
+
+int main() {
+    int n;
+    
+    scanf("%d", &n);
+    
+    for(int i=n;i>0;i--)
+        printf("%d\n", i);
+        
+    return 0;
+    
+}
+*/

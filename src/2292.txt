@@ -1,0 +1,44 @@
+//벌집이 형성되는 규칙에 따라 벌집의 위치를 구하는 문제
+#include<stdio.h>
+
+int main(void)
+{	
+	long input, flag;
+	scanf("%ld", &input);
+	for(long x=1; x<=1000000000; x++)
+	{
+		flag = 3*x*x - 3*x + 1;
+		if(input<=flag)
+		{
+			printf("%ld\n",x);
+			break;
+		}
+	}
+	return 0;
+}
+
+----------------------------------------------------------------------------------------
+
+#include <stdio.h>
+
+int main()
+{
+    int n;
+    int sum;
+    int i;
+
+    scanf("%d", &n);
+
+    sum = 1;
+    for (i = 0; ; i++)
+    {
+        sum += i * 6;
+        if (sum >= n)
+        {
+            printf("%d", i + 1);
+            break;
+        }
+    }
+
+    return 0;
+}

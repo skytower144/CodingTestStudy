@@ -1,0 +1,56 @@
+//직각삼각형//피타고라스의 정리//
+
+#include <stdio.h>
+
+int main(void)
+{
+	int a, b, c;
+	while(1)
+	{
+		scanf("%d %d %d", &a, &b, &c);
+		if(a==0)	break;
+		int max = a;
+		int leftover = b*b + c*c;
+		if(max<b)
+		{
+			max = b;
+			leftover = a*a + c*c;
+		}
+		if(max<c)
+		{
+			max = c;
+			leftover = a*a + b*b;
+		}
+		if(max*max == leftover)
+			printf("right\n");
+		else
+			printf("wrong\n");
+	}
+}
+
+---------------------------------------------------------------------------------------
+
+#include<stdio.h>
+
+void swap(int* a,int* b){
+	int temp;
+	temp=*a;
+	*a=*b;
+	*b=temp;
+}
+
+int main(){
+	int a=1,b=1,c;
+	while(1){
+		scanf("%d %d %d",&a,&b,&c);
+		if(a+b+c==0)
+			break;
+		if(a<b)swap(&a,&b);
+		if(a<c)swap(&a,&c);
+		if(a*a==b*b+c*c)
+			printf("right\n");
+		else 
+			printf("wrong\n");
+	}
+	return 0;
+}

@@ -1,0 +1,36 @@
+//평균을 조작하는 문제
+#include <stdio.h>
+
+int main()
+{
+	int testNumber;
+	int max = 0;
+	float score,  sum;
+	sum = 0;
+		
+	scanf("%d", &testNumber);
+	float scoreList[testNumber];
+	
+	for(int x=0; x<testNumber; x++)
+	{
+		scanf("%f", &score);
+		scoreList[x] = score;
+	}
+	
+	for(int y=1; y<testNumber; y++)
+	{
+		if(scoreList[max] < scoreList[y])
+		{
+			max = y;
+		}
+	}
+	
+	for(int z=0; z<testNumber; z++)
+	{
+		sum += ((scoreList[z] / scoreList[max]) * 100.0);
+	}
+	
+	printf("%f\n", sum / testNumber );
+	
+	return 0;
+} 

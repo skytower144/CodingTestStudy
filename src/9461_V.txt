@@ -1,0 +1,33 @@
+//동적 계획법1 // 피보나치 수와 비슷한 규칙 // 
+#include <stdio.h>
+
+long num[101] = {0,1,1,1,2,2,0,};
+long P(int a)
+{
+	for(int i=6; i<=a; i++)
+	{
+		num[i] = num[i-1] + num[i-5];
+	}
+	return num[a];
+}
+
+int main()
+{
+	int N, a;
+	long answer;			//답이 int형 범위를 넘어가기 때문에 더 큰 자료형을 사용해야 한다.
+	scanf("%d", &N);
+	for(int i=0; i<N; i++)
+	{
+		scanf("%d", &a);
+		if(a<=5)
+			answer = num[a];
+		else
+		{
+			answer = P(a);
+		}
+
+		printf("%ld\n", answer);
+	}
+	
+	return 0;
+}

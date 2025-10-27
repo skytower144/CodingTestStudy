@@ -1,0 +1,69 @@
+//영화감독 숌//N번째 종말의 수가 나올 때까지 차례대로 시도하는 문제//BRUTE FORCE//
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+int main(void)
+{
+	char input[10001];
+	int ct=0;
+	int i; int H; 
+	scanf("%s", input);
+	H = atoi(input);
+	
+	for(i=1; ct < H; i++)
+	{
+		char buf[10001];
+		int min_ct = 0;				//i가 갱신될 때마다 min_ct를 매번 초기화시켜줘야 한다!
+		sprintf(buf,"%d",i);
+		int LEN = strlen(buf);
+		for(int k=0; k<LEN; k++)
+		{
+			if(buf[k] == '6')
+				min_ct++;
+			else
+				min_ct = 0;
+			if(min_ct == 3)
+			{
+				ct++;
+				break;
+			}
+		}
+	}
+	printf("%d\n", i-1);
+	
+	return 0;
+}
+----------------------------------------------------------------------------------------------------------------
+해결법2)
+
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    int n, eval = 100, working, cnt = 0;
+
+    cin >> n;
+
+    while (1)
+    {
+        working = eval;
+        while (working >= 666)
+        {
+            if (working % 1000 == 666)
+            {
+                ++cnt;
+                break;
+            }
+            working /= 10;
+        }
+        if (n == cnt)
+        {
+            cout << eval;
+            break;
+        }
+        ++eval;
+    }
+}

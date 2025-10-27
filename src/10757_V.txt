@@ -1,0 +1,96 @@
+// 큰 수 A+B
+파이썬 같은 언어는 10,000자리 정도의 자연수도 자유롭게 다룰 수 있습니다. 하지만 C/C++이라면 이 문제를 어떻게 풀까요?
+// ㄴ 문자열로 푸는게 정답.
+
+#include<stdio.h>
+#include<string.h>
+
+void bigAdd(char *a, char *b, char*c)
+{
+	int len;
+	int num = 0;
+	int k = 0;
+	
+	if(strlen(a) <= strlen(b))						//둘 중 길이가 긴것을 총 길이로 삼는다. (임시로)
+		len = strlen(b);
+	else
+		len = strlen(a);
+	
+	for(int T=0; T<len; T++)
+	{
+		if(a[T] == '\0')							//1001 + 99 의 경우 99는 엄밀히 0099이기 때문이다.
+			a[T] = '0';
+		else if(b[T] == '\0')
+			b[T] = '0';
+		num = k + (a[T] - '0') + (b[T] - '0');
+		if(num>9)
+		{
+			num %= 10;
+			c[T] = '0' + num;					// 정수를 문자로 변환시킬 때 참고하자.
+			k = 1;
+		}
+		else
+		{
+			c[T] = '0' + num;
+			k = 0;
+		}
+	}
+	if(k==1)						// 99 + 1 과 같은 경우 한자리수가 추가로 더 필요하기 때문이다.
+		c[len] = '1';
+}
+
+void reverse(char *x)						//reverse가 필요한 이유는 뒷자리부터 계산을 해야 차례차례로
+{										    //앞자리에 +1씩 할 수 있기 때문이다.
+	char temp;
+	int end_x = strlen(x) - 1;
+	for(int K=0; K<strlen(x)/2; K++)
+	{
+		temp = x[K];
+		x[K] = x[end_x];
+		x[end_x] = temp;
+		end_x--;
+	}
+}
+
+int main(void)
+{
+	char A[100001];
+	char B[100001];
+	char R[100001];
+	
+	scanf("%s %s", A, B);
+	
+	reverse(A);
+	reverse(B);
+	bigAdd(A,B,R);
+	reverse(R);
+	printf("%s\n", R);
+
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////
+
+cf) 포인터
+
+char x[10];
+
+*(x+i)= 뭐시기뭐시기;
+
+//////////////////////////////////////////////////////////////////////////////////
+
+cf) 정수를 문자로 변환
+
+이번엔 반대로 정수 0, 7을 문자 ‘0’, ‘7’로 바꿔 봅시다.
+
+char a = 0 + '0'; // 정수 0을 문자 '0'으로 변환
+char b = 7 + '0'; // 정수 7을 문자 '7'으로 변환
+///////////////////////////////////////////////////////////////////////////////////
+
+아예 reverse 하는 걸 main 함수에서 처리하지 말고
+bigAdd함수에서 reverse 과정을 처리함으로써 
+bigAdd(A,B,C)가 아닌 bigAdd(A,B)만으로도 처리할 수 있게 만드는 방법... (C 필요없이)
+ㄴ 함수를 미리 사전에 정의..?
+https://icanyoucanwecan.tistory.com/18
+
+

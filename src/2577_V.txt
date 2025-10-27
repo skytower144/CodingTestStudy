@@ -1,0 +1,93 @@
+//각 숫자가 몇 번 나왔는지 저장하기 위해 일차원 배열을 만드는 문제
+#include <stdio.h>
+
+int main()
+{
+	int a, b, c, result, number;
+	
+	scanf("%d %d %d", &a, &b, &c);
+	result = a*b*c;
+	int numberlist[10];
+	
+	
+	for (int x=0; x<10; x++)
+	{
+		numberlist[x] = 0;
+	}
+	
+	while (result>0)
+	{
+		number = result % 10;
+		switch(number)
+		{
+			case 0:
+				numberlist[0]++;
+				break;
+			case 1:
+				numberlist[1]++;
+				break;
+			case 2:
+				numberlist[2]++; 
+				break;
+			case 3:
+				numberlist[3]++;
+				break;
+			case 4:
+				numberlist[4]++;
+				break;
+			case 5:
+				numberlist[5]++;
+				break;
+			case 6:
+				numberlist[6]++;
+				break;
+			case 7:
+				numberlist[7]++;
+				break;
+			case 8:
+				numberlist[8]++;
+				break;
+			case 9:
+				numberlist[9]++;
+				break;
+			default:
+				break;
+		}	
+		result = result / 10;
+	}
+	
+	for(int y =0; y<10; y++)
+	{
+		printf("%d\n", numberlist[y]);	
+	}
+
+	return 0;
+} 
+-------------------------------------------------------------------------
+//훨씬 효율화..
+#include <stdio.h>
+
+int main()
+{
+	int a, b, c, result, number;
+	
+	scanf("%d %d %d", &a, &b, &c);
+	result = a*b*c;
+	int numberlist[10] = {0,};             // <------ 중요!
+	
+	while (result>0)
+	{
+		number = result % 10;
+		numberlist[number]++;
+		
+		result /= 10;
+	}
+	
+	for(int y =0; y<10; y++)
+	{
+		printf("%d\n", numberlist[y]);	
+	}
+
+	return 0;
+} 
+

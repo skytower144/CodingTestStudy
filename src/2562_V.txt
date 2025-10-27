@@ -1,0 +1,44 @@
+//최댓값이 어디에 있는지 찾는 문제
+#include <stdio.h>
+
+int main()
+{
+	int userInput;
+	int bundle[9];
+	int max = 0;
+	
+	for(int x=0; x<9; x++)
+	{
+		scanf("%d", &userInput);
+		bundle[x] = userInput;
+	}
+	for(int y=1; y<9; y++)
+	{
+		if(bundle[max]<bundle[y])
+		{
+			max = y;
+		}
+	}
+	printf("%d\n%d", bundle[max], max+1);
+	
+	return 0;
+} 
+
+------------------------------------------------------
+#include <stdio.h>
+
+int main()
+{
+	int a[9], i, n, max = 0;
+
+	for (i = 0; i < 9; i++)
+	{
+		scanf("%d", &a[i]);                         //<---- &a[i] 형식 좋은 것 같음!
+		if (max < a[i])
+		{
+			max = a[i];
+			n = i;
+		}
+	}
+	printf("%d\n%d", max, n + 1);
+}

@@ -1,0 +1,52 @@
+//소트 인사이드 // 숫자의 정렬
+
+//이 문제는 예를 들어.. 2, 32, 22, 11, 1 형태의 숫자들을 정렬하는 것과는 다르다.
+//일단 입력받는 숫자는 하나이므로 
+//숫자 내에서 존재할 수 있는 수는 0부터 9까지, 즉 10가지밖에 존재하지 않는다.
+
+#include <stdio.h>
+
+int main(void)
+{
+	int input; int ct=0;
+	int num[11] = {0, };
+	scanf("%d", &input);
+	while(input>0)
+	{
+		num[input % 10]++;
+		input /= 10;
+		ct++;
+	}
+	for(int i=9; i>=0; i--)
+	{
+		if(num[i]!=0)
+		{
+			for(int k=0; k<num[i]; k++)
+				printf("%d",i);
+		}
+	}
+	return 0;
+}
+
+-------------------------------------------------------------------------------------------
+버블 정렬을 이용한 풀이방식):
+
+#include<stdio.h>
+#include<string.h>
+
+int main(void) {
+    char num[101] = {0};
+    gets(num);
+    int temp;
+    for (int i = 0; i < strlen(num) - 1; i++) {
+        for (int j = i; j < strlen(num); j++) {
+            if (num[i] < num[j]) {
+                temp = num[i];
+                num[i] = num[j];
+                num[j] = temp;
+            }
+        }
+    }
+    puts(num);
+    return 0;
+}
